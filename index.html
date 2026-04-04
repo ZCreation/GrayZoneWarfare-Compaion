@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gray Zone Intel Board</title>
+    <meta
+      name="description"
+      content="Gray Zone Warfare helper for loot prices, best sell values, weekly vulture locations, blueprint spots, and medical guidance."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <header class="hero">
+      <div class="hero__text">
+        <p class="eyebrow">Gray Zone Warfare Companion</p>
+        <h1>Gray Zone Intel Board</h1>
+        <p>
+          Track loot values, find weekly vulture routes, discover blueprint stashes,
+          and handle medical situations faster in the field.
+        </p>
+      </div>
+      <div class="hero__chips" role="list" aria-label="Quick categories">
+        <span role="listitem">Loot Economy</span>
+        <span role="listitem">Vulture Weekly</span>
+        <span role="listitem">Blueprint Routes</span>
+        <span role="listitem">Medical Field Guide</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel" id="vulture-locations">
+        <div class="panel__heading">
+          <h2>Weekly Vulture Locations</h2>
+          <p>Current active points of interest and loot sweep notes.</p>
+          <p class="update-note">
+            Reset schedule: Every Monday at 8:00 AM EDT.
+            <span id="resetCountdown" class="countdown-badge">Calculating...</span>
+          </p>
+          <p class="update-note">Tip: If the area has not been claimed yet, there will be enemies.</p>
+        </div>
+
+        <div class="toolbar compact">
+          <label for="weekSelect">Week Rotation</label>
+          <select id="weekSelect"></select>
+        </div>
+
+        <div id="vultureCards" class="card-grid"></div>
+      </section>
+
+      <section class="panel" id="blueprints">
+        <div class="panel__heading">
+          <h2>Weapon Blueprint Locations</h2>
+          <p>Known spawns, danger level, and extraction notes.</p>
+        </div>
+
+        <div id="blueprintList" class="list-grid"></div>
+      </section>
+
+      <section class="panel" id="medical">
+        <div class="panel__heading">
+          <h2>Medical and Healing Guide</h2>
+          <p>Identify the status effect you have, then follow the correct treatment.</p>
+        </div>
+
+        <div class="toolbar compact">
+          <label for="conditionSelect">Status Effect</label>
+          <select id="conditionSelect"></select>
+        </div>
+
+        <article id="medicalGuide" class="medical-guide" aria-live="polite"></article>
+      </section>
+
+      <section class="panel" id="loot-prices">
+        <div class="panel__heading">
+          <h2>Loot Item Prices</h2>
+          <p>Pre-0.4 base values and preferred seller reference.</p>
+          <p class="update-note">
+            Note: These values are from before update 0.4 and may change after new patches.
+            Source:
+            <a href="https://gray-zone-warfare.fandom.com/wiki/Loot" target="_blank" rel="noopener noreferrer">Gray Zone Warfare Wiki Loot Page</a>
+          </p>
+        </div>
+
+        <div class="toolbar">
+          <label for="itemSearch">Search Item</label>
+          <input id="itemSearch" type="search" placeholder="Type item name..." />
+
+          <label for="vendorFilter">Preferred Seller</label>
+          <select id="vendorFilter">
+            <option value="all">All Sellers</option>
+          </select>
+
+          <label for="sortBy">Sort By</label>
+          <select id="sortBy">
+            <option value="item">Item (A-Z)</option>
+            <option value="category">Category (A-Z)</option>
+            <option value="weight">Weight (Low-High)</option>
+            <option value="baseValue">Base Value (Low-High)</option>
+            <option value="preferredSeller">Preferred Seller (A-Z)</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Weight</th>
+                <th>Base Value (Pre-0.4)</th>
+                <th>Preferred Seller</th>
+              </tr>
+            </thead>
+            <tbody id="lootTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Community notes: update values weekly after patches. This page is fan-made and not official.
+      </p>
+    </footer>
+
+    <script src="lootData.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

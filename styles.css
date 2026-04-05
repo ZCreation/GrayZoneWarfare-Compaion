@@ -133,6 +133,19 @@ h2 {
   color: var(--text-main);
 }
 
+.hero__chips .steam-cta {
+  border-color: rgba(121, 214, 183, 0.8);
+  background: linear-gradient(135deg, rgba(67, 191, 148, 0.36), rgba(27, 80, 65, 0.55));
+  color: #e9fff7;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px rgba(121, 214, 183, 0.25), 0 6px 16px rgba(35, 126, 98, 0.35);
+}
+
+.hero__chips .steam-cta:visited,
+.hero__chips .steam-cta:focus-visible {
+  color: #e9fff7;
+}
+
 main {
   display: grid;
   gap: 1.25rem;

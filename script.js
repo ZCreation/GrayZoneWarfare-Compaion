@@ -168,7 +168,6 @@ const vendorFilterEl = document.getElementById("vendorFilter");
 const itemSearchEl = document.getElementById("itemSearch");
 const sortByEl = document.getElementById("sortBy");
 const lootTableBodyEl = document.getElementById("lootTableBody");
-const weekSelectEl = document.getElementById("weekSelect");
 const vultureCardsEl = document.getElementById("vultureCards");
 const resetCountdownEl = document.getElementById("resetCountdown");
 const blueprintListEl = document.getElementById("blueprintList");
@@ -358,18 +357,8 @@ function setupVendorFilter() {
   });
 }
 
-function setupWeekFilter() {
-  Object.keys(vultureWeeks).forEach((week) => {
-    const option = document.createElement("option");
-    option.value = week;
-    option.textContent = week;
-    weekSelectEl.append(option);
-  });
-}
-
 function renderVultureCards() {
-  const currentWeek = weekSelectEl.value;
-  const locations = vultureWeeks[currentWeek] || [];
+  const locations = vultureWeeks["Current Rotation"] || [];
 
   vultureCardsEl.innerHTML = locations
     .map(
@@ -446,10 +435,8 @@ function renderMedicalGuide() {
 
 function init() {
   setupVendorFilter();
-  setupWeekFilter();
   setupMedicalSelector();
 
-  weekSelectEl.selectedIndex = 0;
   conditionSelectEl.selectedIndex = 0;
 
   renderLootTable();
@@ -461,7 +448,6 @@ function init() {
   itemSearchEl.addEventListener("input", renderLootTable);
   vendorFilterEl.addEventListener("change", renderLootTable);
   sortByEl.addEventListener("change", renderLootTable);
-  weekSelectEl.addEventListener("change", renderVultureCards);
   conditionSelectEl.addEventListener("change", renderMedicalGuide);
 }
 

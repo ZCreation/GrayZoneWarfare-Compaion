@@ -432,6 +432,23 @@ footer {
   color: var(--text-dim);
 }
 
+.tiny-credit {
+  margin-top: 0.25rem;
+  font-size: 0.68rem;
+  opacity: 0.78;
+}
+
+.tiny-credit a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.tiny-credit a:hover,
+.tiny-credit a:focus-visible {
+  color: var(--text-main);
+  text-decoration: underline;
+}
+
 @keyframes slideIn {
   from {
     transform: translateY(12px);

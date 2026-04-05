@@ -283,6 +283,49 @@ td strong {
   gap: 0.85rem;
 }
 
+.blueprint-carousel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.blueprint-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 300px);
+  gap: 0.85rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.1rem;
+}
+
+.blueprint-track .list-item {
+  scroll-snap-align: start;
+  height: 100%;
+}
+
+.blueprint-track::-webkit-scrollbar {
+  height: 8px;
+}
+
+.blueprint-track::-webkit-scrollbar-thumb {
+  background: rgba(130, 182, 168, 0.35);
+  border-radius: 999px;
+}
+
+.blueprint-nav {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(121, 214, 183, 0.45);
+  background: rgba(7, 17, 20, 0.72);
+  color: var(--text-main);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .card,
 .list-item,
 .medical-guide {
@@ -398,6 +441,18 @@ footer {
   .card-grid,
   .list-grid {
     grid-template-columns: 1fr;
+  }
+
+  .blueprint-carousel {
+    grid-template-columns: 1fr;
+  }
+
+  .blueprint-nav {
+    display: none;
+  }
+
+  .blueprint-track {
+    grid-auto-columns: minmax(86vw, 1fr);
   }
 
   .table-wrap {

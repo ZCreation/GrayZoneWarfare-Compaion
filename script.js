@@ -180,6 +180,8 @@ const lootTableBodyEl = document.getElementById("lootTableBody");
 const vultureCardsEl = document.getElementById("vultureCards");
 const resetCountdownEl = document.getElementById("resetCountdown");
 const blueprintListEl = document.getElementById("blueprintList");
+const blueprintPrevEl = document.getElementById("blueprintPrev");
+const blueprintNextEl = document.getElementById("blueprintNext");
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
 
@@ -413,6 +415,22 @@ function renderBlueprints() {
     .join("");
 }
 
+function setupBlueprintCarousel() {
+  if (!blueprintListEl || !blueprintPrevEl || !blueprintNextEl) {
+    return;
+  }
+
+  const scrollAmount = () => Math.max(260, Math.floor(blueprintListEl.clientWidth * 0.8));
+
+  blueprintPrevEl.addEventListener("click", () => {
+    blueprintListEl.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
+  });
+
+  blueprintNextEl.addEventListener("click", () => {
+    blueprintListEl.scrollBy({ left: scrollAmount(), behavior: "smooth" });
+  });
+}
+
 function setupMedicalSelector() {
   Object.keys(medicalSituations).forEach((condition) => {
     const option = document.createElement("option");
@@ -459,6 +477,7 @@ function init() {
   renderBlueprints();
   renderMedicalGuide();
   startResetCountdown();
+  setupBlueprintCarousel();
 
   itemSearchEl.addEventListener("input", renderLootTable);
   vendorFilterEl.addEventListener("change", renderLootTable);

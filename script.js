@@ -376,9 +376,32 @@ async function updateUserCounter() {
 
     const data = await response.json();
     const value = typeof data.value === "number" ? data.value : null;
-    userCountValueEl.textContent = value !== null ? formatCompactCount(value) : "N/A";
+    if (value !== null) {
+      userCountValueEl.textContent = formatCompactCount(value);
+      return;
+    }
+    throw new Error("counter value missing");
   } catch (error) {
-    userCountValueEl.textContent = "N/A";
+    try {
+      const fallbackEndpoint =
+        "https://api.visitorbadge.io/api/visitors?path=grayzoneintelboard";
+      const fallbackResponse = await fetch(fallbackEndpoint, { cache: "no-store" });
+
+      if (!fallbackResponse.ok) {
+        throw new Error("fallback counter request failed");
+      }
+
+      const svgText = await fallbackResponse.text();
+      const countMatch = svgText.match(/VISITORS:\s*([0-9,]+)/i);
+      const numericText = countMatch ? countMatch[1].replace(/,/g, "") : "";
+      const fallbackValue = Number.parseInt(numericText, 10);
+
+      userCountValueEl.textContent = Number.isFinite(fallbackValue)
+        ? formatCompactCount(fallbackValue)
+        : "N/A";
+    } catch (fallbackError) {
+      userCountValueEl.textContent = "N/A";
+    }
   }
 }
 

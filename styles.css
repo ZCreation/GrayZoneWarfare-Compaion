@@ -58,6 +58,10 @@ footer {
   padding: 3rem 0 2rem;
   display: grid;
   gap: 1rem;
+  min-height: clamp(280px, 56vh, 520px);
+  align-content: center;
+  justify-items: center;
+  text-align: center;
   animation: slideIn 700ms ease both;
 }
 
@@ -89,12 +93,14 @@ h2 {
   max-width: 72ch;
   color: var(--text-dim);
   margin-bottom: 0;
+  margin-inline: auto;
 }
 
 .hero__chips {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
+  justify-content: center;
 }
 
 .hero__chips span {
@@ -318,7 +324,8 @@ footer {
   }
 
   .hero {
-    padding-top: 2rem;
+    padding-top: 1.5rem;
+    min-height: 52vh;
     gap: 0.75rem;
   }
 

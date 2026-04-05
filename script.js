@@ -48,6 +48,7 @@ const blueprintLocations = [
     missionTip:
       "Interact with the magazine to start the mission, collect the item, then return to base camp or outpost.",
     weaponPrice: "N/A",
+    ammoType: "N/A",
     extractionTip: "Complete mission turn-in, then claim your new weapon from Gunny.",
   },
   {
@@ -58,6 +59,7 @@ const blueprintLocations = [
     missionTip:
       "Interact with the magazine to start the mission, collect the item, then return to Vulture Outpost.",
     weaponPrice: "$17,800",
+    ammoType: "N/A",
     extractionTip: "Complete mission turn-in at Vulture Outpost, then claim your weapon.",
   },
   {
@@ -68,6 +70,7 @@ const blueprintLocations = [
     missionTip:
       "Interact with the magazine to start the mission, collect the item, then return to Banshee.",
     weaponPrice: "$13,200 from Banshee",
+    ammoType: "N/A",
     extractionTip: "Complete mission turn-in with Banshee, then continue weapon unlock flow.",
   },
 ];

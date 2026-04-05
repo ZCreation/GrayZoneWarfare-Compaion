@@ -298,6 +298,8 @@ td strong {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding: 0.1rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .blueprint-track .list-item {
@@ -306,12 +308,7 @@ td strong {
 }
 
 .blueprint-track::-webkit-scrollbar {
-  height: 8px;
-}
-
-.blueprint-track::-webkit-scrollbar-thumb {
-  background: rgba(130, 182, 168, 0.35);
-  border-radius: 999px;
+  display: none;
 }
 
 .blueprint-nav {

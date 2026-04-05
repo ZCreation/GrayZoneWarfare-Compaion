@@ -1,6 +1,5 @@
-if (!Array.isArray(lootItems)) {
-  throw new Error("lootData.js did not load correctly.");
-}
+const lootItemsData =
+  typeof lootItems !== "undefined" && Array.isArray(lootItems) ? lootItems : [];
 
 const vultureWeeks = {
   "Current Rotation": [
@@ -174,7 +173,7 @@ const blueprintListEl = document.getElementById("blueprintList");
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
 
-const sellers = [...new Set(lootItems.map((entry) => entry.preferredSeller))].sort();
+const sellers = [...new Set(lootItemsData.map((entry) => entry.preferredSeller))].sort();
 
 function formatCash(value) {
   return `$${value.toLocaleString()}`;
@@ -190,10 +189,16 @@ function compareEntries(a, b, sortBy) {
     return parseWeightKg(a.weight) - parseWeightKg(b.weight);
   }
 
-  if (sortBy === "baseValue") {
+  if (sortBy === "baseValueAsc" || sortBy === "baseValue") {
     const valueA = typeof a.baseValue === "number" ? a.baseValue : Number.POSITIVE_INFINITY;
     const valueB = typeof b.baseValue === "number" ? b.baseValue : Number.POSITIVE_INFINITY;
     return valueA - valueB;
+  }
+
+  if (sortBy === "baseValueDesc") {
+    const valueA = typeof a.baseValue === "number" ? a.baseValue : Number.NEGATIVE_INFINITY;
+    const valueB = typeof b.baseValue === "number" ? b.baseValue : Number.NEGATIVE_INFINITY;
+    return valueB - valueA;
   }
 
   return String(a[sortBy]).localeCompare(String(b[sortBy]));
@@ -320,7 +325,7 @@ function renderLootTable() {
   const preferredSeller = vendorFilterEl.value;
   const sortBy = sortByEl.value;
 
-  const rows = lootItems
+  const rows = lootItemsData
     .filter((entry) => {
       const passesSearch = entry.item.toLowerCase().includes(query);
       const passesSeller =

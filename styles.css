@@ -298,12 +298,21 @@ td strong {
   padding: 0.1rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  align-items: stretch;
 }
 
 .blueprint-track .list-item {
   flex: 0 0 300px;
   scroll-snap-align: start;
   height: 100%;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+}
+
+.blueprint-track .list-item h3 {
+  min-height: 2.6em;
+  line-height: 1.18;
 }
 
 .blueprint-track::-webkit-scrollbar {
@@ -456,6 +465,11 @@ footer {
   .blueprint-track .list-item {
     flex: 0 0 calc(100vw - 2.5rem);
     max-width: calc(100vw - 2.5rem);
+    min-height: 0;
+  }
+
+  .blueprint-track .list-item h3 {
+    min-height: 0;
   }
 
   .table-wrap {

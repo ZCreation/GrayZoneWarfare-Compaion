@@ -334,11 +334,11 @@ function renderLootTable() {
         typeof entry.baseValue === "number" ? formatCash(entry.baseValue) : "Unknown";
       return `
         <tr>
-          <td>${renderLootItemCell(entry)}</td>
-          <td>${entry.category}</td>
-          <td>${entry.weight}</td>
-          <td>${baseValueLabel}</td>
-          <td><strong>${entry.preferredSeller}</strong></td>
+          <td data-label="Item">${renderLootItemCell(entry)}</td>
+          <td data-label="Category">${entry.category}</td>
+          <td data-label="Weight">${entry.weight}</td>
+          <td data-label="Base Value">${baseValueLabel}</td>
+          <td data-label="Preferred Seller"><strong>${entry.preferredSeller}</strong></td>
         </tr>
       `;
     })

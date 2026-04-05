@@ -302,6 +302,16 @@ footer {
 }
 
 @media (max-width: 760px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .hero,
+  main,
+  footer {
+    width: min(1120px, calc(100% - 1rem));
+  }
+
   .toolbar,
   .toolbar.compact {
     grid-template-columns: 1fr;
@@ -309,9 +319,83 @@ footer {
 
   .hero {
     padding-top: 2rem;
+    gap: 0.75rem;
   }
 
   .panel {
     padding: 1rem;
+  }
+
+  .hero__chips span {
+    font-size: 0.78rem;
+    padding: 0.38rem 0.65rem;
+  }
+
+  .update-note {
+    width: 100%;
+    display: block;
+  }
+
+  .countdown-badge {
+    display: block;
+    margin: 0.45rem 0 0;
+    width: fit-content;
+  }
+
+  .card-grid,
+  .list-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table-wrap {
+    overflow: visible;
+  }
+
+  table {
+    min-width: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+
+  tr {
+    border: 1px solid rgba(130, 182, 168, 0.24);
+    border-radius: 12px;
+    background: rgba(9, 18, 22, 0.82);
+    padding: 0.5rem;
+    margin-bottom: 0.55rem;
+  }
+
+  td {
+    border-bottom: 0;
+    padding: 0.4rem 0.35rem;
+  }
+
+  td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 0.74rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .loot-item-cell {
+    gap: 0.5rem;
+  }
+
+  .loot-thumb {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
   }
 }

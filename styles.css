@@ -143,6 +143,10 @@ h2 {
   box-shadow: 0 0 0 1px rgba(246, 210, 137, 0.3), 0 6px 16px rgba(122, 84, 24, 0.35);
 }
 
+.site-nav--hero {
+  margin-top: 0.25rem;
+}
+
 .page-header {
   min-height: 190px;
   padding: 2rem 0 1.2rem;

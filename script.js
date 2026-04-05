@@ -368,6 +368,23 @@ function createTabId() {
   return `tab-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function getOrCreateSessionTabId() {
+  const key = "grayzoneintelboard:live-tab-id";
+
+  try {
+    const existing = sessionStorage.getItem(key);
+    if (existing) {
+      return existing;
+    }
+
+    const newId = createTabId();
+    sessionStorage.setItem(key, newId);
+    return newId;
+  } catch (error) {
+    return createTabId();
+  }
+}
+
 function readPresenceMap() {
   const key = "grayzoneintelboard:live-presence";
 
@@ -406,7 +423,7 @@ function startLiveUserPresence() {
     return;
   }
 
-  const tabId = createTabId();
+  const tabId = getOrCreateSessionTabId();
   const maxAgeMs = 45000;
   const heartbeatMs = 15000;
 

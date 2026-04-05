@@ -53,6 +53,16 @@ const blueprintLocations = [
     ammoType: "N/A",
     extractionTip: "Complete mission turn-in with Banshee, then continue weapon unlock flow.",
   },
+  {
+    name: "MOSSBERG 590",
+    location: "Remote Campsite",
+    coords: "149, 111",
+    danger: "High",
+    missionTip: "Tip: Return to Gunny.",
+    weaponPrice: "N/A",
+    ammoType: "N/A",
+    extractionTip: "Return to Gunny.",
+  },
 ];
 
 const blueprintListEl = document.getElementById("blueprintList");

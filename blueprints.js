@@ -58,7 +58,8 @@ const blueprintLocations = [
     location: "Remote Campsite",
     coords: "149, 111",
     danger: "High",
-    missionTip: "Tip: Return to Gunny.",
+    missionTip:
+      "Interact with the magazine to start the mission, collect the item, then return to Gunny.",
     weaponPrice: "N/A",
     ammoType: "N/A",
     extractionTip: "Return to Gunny.",

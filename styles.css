@@ -304,10 +304,11 @@ td strong {
 .blueprint-track .list-item {
   flex: 0 0 300px;
   scroll-snap-align: start;
-  height: 100%;
-  min-height: 540px;
+  height: 620px;
+  min-height: 620px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .blueprint-track .list-item h3 {
@@ -465,6 +466,7 @@ footer {
   .blueprint-track .list-item {
     flex: 0 0 calc(100vw - 2.5rem);
     max-width: calc(100vw - 2.5rem);
+    height: auto;
     min-height: 0;
   }
 

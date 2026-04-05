@@ -360,48 +360,97 @@ function formatCompactCount(value) {
   return `${Math.round(value)}`;
 }
 
-async function updateUserCounter() {
+function createTabId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+
+  return `tab-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function readPresenceMap() {
+  const key = "grayzoneintelboard:live-presence";
+
+  try {
+    const raw = localStorage.getItem(key);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch (error) {
+    return {};
+  }
+}
+
+function writePresenceMap(presenceMap) {
+  const key = "grayzoneintelboard:live-presence";
+
+  try {
+    localStorage.setItem(key, JSON.stringify(presenceMap));
+  } catch (error) {
+    // Ignore storage write failures and keep UI stable.
+  }
+}
+
+function prunePresenceMap(presenceMap, now, maxAgeMs) {
+  Object.keys(presenceMap).forEach((tabId) => {
+    const lastSeen = Number(presenceMap[tabId]);
+    if (!Number.isFinite(lastSeen) || now - lastSeen > maxAgeMs) {
+      delete presenceMap[tabId];
+    }
+  });
+
+  return presenceMap;
+}
+
+function startLiveUserPresence() {
   if (!userCountValueEl) {
     return;
   }
 
-  try {
-    const endpoint =
-      "https://api.countapi.xyz/hit/grayzoneintelboard/people-using-site";
-    const response = await fetch(endpoint, { cache: "no-store" });
+  const tabId = createTabId();
+  const maxAgeMs = 45000;
+  const heartbeatMs = 15000;
 
-    if (!response.ok) {
-      throw new Error("counter request failed");
+  const refreshPresence = () => {
+    const now = Date.now();
+    const presenceMap = prunePresenceMap(readPresenceMap(), now, maxAgeMs);
+    presenceMap[tabId] = now;
+    writePresenceMap(presenceMap);
+    userCountValueEl.textContent = formatCompactCount(Object.keys(presenceMap).length);
+  };
+
+  const removePresence = () => {
+    const now = Date.now();
+    const presenceMap = prunePresenceMap(readPresenceMap(), now, maxAgeMs);
+    delete presenceMap[tabId];
+    writePresenceMap(presenceMap);
+  };
+
+  refreshPresence();
+  setInterval(refreshPresence, heartbeatMs);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      refreshPresence();
     }
+  });
 
-    const data = await response.json();
-    const value = typeof data.value === "number" ? data.value : null;
-    if (value !== null) {
-      userCountValueEl.textContent = formatCompactCount(value);
+  window.addEventListener("storage", (event) => {
+    if (event.key !== "grayzoneintelboard:live-presence") {
       return;
     }
-    throw new Error("counter value missing");
+
+    const now = Date.now();
+    const presenceMap = prunePresenceMap(readPresenceMap(), now, maxAgeMs);
+    userCountValueEl.textContent = formatCompactCount(Object.keys(presenceMap).length);
+  });
+
+  window.addEventListener("beforeunload", removePresence);
+  window.addEventListener("pagehide", removePresence);
+
+  try {
+    document.addEventListener("freeze", removePresence);
   } catch (error) {
-    try {
-      const fallbackEndpoint =
-        "https://api.visitorbadge.io/api/visitors?path=grayzoneintelboard";
-      const fallbackResponse = await fetch(fallbackEndpoint, { cache: "no-store" });
-
-      if (!fallbackResponse.ok) {
-        throw new Error("fallback counter request failed");
-      }
-
-      const svgText = await fallbackResponse.text();
-      const countMatch = svgText.match(/VISITORS:\s*([0-9,]+)/i);
-      const numericText = countMatch ? countMatch[1].replace(/,/g, "") : "";
-      const fallbackValue = Number.parseInt(numericText, 10);
-
-      userCountValueEl.textContent = Number.isFinite(fallbackValue)
-        ? formatCompactCount(fallbackValue)
-        : "N/A";
-    } catch (fallbackError) {
-      userCountValueEl.textContent = "N/A";
-    }
+    // Unsupported browser event.
   }
 }
 
@@ -630,7 +679,7 @@ function init() {
   renderMedicalGuide();
   renderProvisionsTable();
   startResetCountdown();
-  updateUserCounter();
+  startLiveUserPresence();
   setupBlueprintCarousel();
 
   itemSearchEl.addEventListener("input", renderLootTable);

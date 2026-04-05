@@ -193,7 +193,6 @@ const blueprintPrevEl = document.getElementById("blueprintPrev");
 const blueprintNextEl = document.getElementById("blueprintNext");
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
-const userCountValueEl = document.getElementById("userCountValue");
 const provisionsSearchEl = document.getElementById("provisionsSearch");
 const provisionsSortEl = document.getElementById("provisionsSort");
 const provisionsTableBodyEl = document.getElementById("provisionsTableBody");
@@ -330,145 +329,6 @@ function updateResetCountdown() {
 function startResetCountdown() {
   updateResetCountdown();
   setInterval(updateResetCountdown, 1000);
-}
-
-function formatCompactCount(value) {
-  if (!Number.isFinite(value)) {
-    return "N/A";
-  }
-
-  const absValue = Math.abs(value);
-  if (absValue < 1000) {
-    return `${Math.round(value)}`;
-  }
-
-  const units = [
-    { threshold: 1e12, suffix: "t" },
-    { threshold: 1e9, suffix: "b" },
-    { threshold: 1e6, suffix: "m" },
-    { threshold: 1e3, suffix: "k" },
-  ];
-
-  for (const unit of units) {
-    if (absValue >= unit.threshold) {
-      const scaled = value / unit.threshold;
-      const precision = Math.abs(scaled) >= 10 ? 0 : 1;
-      return `${Number(scaled.toFixed(precision))}${unit.suffix}`;
-    }
-  }
-
-  return `${Math.round(value)}`;
-}
-
-function createTabId() {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
-    return crypto.randomUUID();
-  }
-
-  return `tab-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-}
-
-function getOrCreateSessionTabId() {
-  const key = "grayzoneintelboard:live-tab-id";
-
-  try {
-    const existing = sessionStorage.getItem(key);
-    if (existing) {
-      return existing;
-    }
-
-    const newId = createTabId();
-    sessionStorage.setItem(key, newId);
-    return newId;
-  } catch (error) {
-    return createTabId();
-  }
-}
-
-function readPresenceMap() {
-  const key = "grayzoneintelboard:live-presence";
-
-  try {
-    const raw = localStorage.getItem(key);
-    const parsed = raw ? JSON.parse(raw) : {};
-    return parsed && typeof parsed === "object" ? parsed : {};
-  } catch (error) {
-    return {};
-  }
-}
-
-function writePresenceMap(presenceMap) {
-  const key = "grayzoneintelboard:live-presence";
-
-  try {
-    localStorage.setItem(key, JSON.stringify(presenceMap));
-  } catch (error) {
-    // Ignore storage write failures and keep UI stable.
-  }
-}
-
-function prunePresenceMap(presenceMap, now, maxAgeMs) {
-  Object.keys(presenceMap).forEach((tabId) => {
-    const lastSeen = Number(presenceMap[tabId]);
-    if (!Number.isFinite(lastSeen) || now - lastSeen > maxAgeMs) {
-      delete presenceMap[tabId];
-    }
-  });
-
-  return presenceMap;
-}
-
-function startLiveUserPresence() {
-  if (!userCountValueEl) {
-    return;
-  }
-
-  const tabId = getOrCreateSessionTabId();
-  const maxAgeMs = 45000;
-  const heartbeatMs = 15000;
-
-  const refreshPresence = () => {
-    const now = Date.now();
-    const presenceMap = prunePresenceMap(readPresenceMap(), now, maxAgeMs);
-    presenceMap[tabId] = now;
-    writePresenceMap(presenceMap);
-    userCountValueEl.textContent = formatCompactCount(Object.keys(presenceMap).length);
-  };
-
-  const removePresence = () => {
-    const now = Date.now();
-    const presenceMap = prunePresenceMap(readPresenceMap(), now, maxAgeMs);
-    delete presenceMap[tabId];
-    writePresenceMap(presenceMap);
-  };
-
-  refreshPresence();
-  setInterval(refreshPresence, heartbeatMs);
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-      refreshPresence();
-    }
-  });
-
-  window.addEventListener("storage", (event) => {
-    if (event.key !== "grayzoneintelboard:live-presence") {
-      return;
-    }
-
-    const now = Date.now();
-    const presenceMap = prunePresenceMap(readPresenceMap(), now, maxAgeMs);
-    userCountValueEl.textContent = formatCompactCount(Object.keys(presenceMap).length);
-  });
-
-  window.addEventListener("beforeunload", removePresence);
-  window.addEventListener("pagehide", removePresence);
-
-  try {
-    document.addEventListener("freeze", removePresence);
-  } catch (error) {
-    // Unsupported browser event.
-  }
 }
 
 function renderLootItemCell(entry) {
@@ -696,7 +556,6 @@ function init() {
   renderMedicalGuide();
   renderProvisionsTable();
   startResetCountdown();
-  startLiveUserPresence();
   setupBlueprintCarousel();
 
   itemSearchEl.addEventListener("input", renderLootTable);

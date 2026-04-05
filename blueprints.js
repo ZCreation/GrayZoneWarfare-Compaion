@@ -54,7 +54,7 @@ const blueprintLocations = [
     extractionTip: "Complete mission turn-in with Banshee, then continue weapon unlock flow.",
   },
   {
-    name: "MOSSBERG 590",
+    name: "MOSSBERG 590 (Raven Team)",
     location: "Remote Campsite",
     coords: "149, 111",
     danger: "High",
@@ -62,7 +62,7 @@ const blueprintLocations = [
       "Interact with the magazine to start the mission, collect the item, then return to Gunny.",
     weaponPrice: "N/A",
     ammoType: "N/A",
-    extractionTip: "Return to Gunny.",
+    extractionTip: "Complete mission turn-in with Gunny, then continue weapon unlock at Vendor.",
   },
 ];
 

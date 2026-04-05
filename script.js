@@ -1,5 +1,9 @@
 const lootItemsData =
   typeof lootItems !== "undefined" && Array.isArray(lootItems) ? lootItems : [];
+const provisionsItemsData =
+  typeof provisionsItems !== "undefined" && Array.isArray(provisionsItems)
+    ? provisionsItems
+    : [];
 
 const vultureWeeks = {
   "Current Rotation": [
@@ -189,6 +193,8 @@ const blueprintPrevEl = document.getElementById("blueprintPrev");
 const blueprintNextEl = document.getElementById("blueprintNext");
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
+const provisionsSortEl = document.getElementById("provisionsSort");
+const provisionsGridEl = document.getElementById("provisionsGrid");
 
 const sellers = [...new Set(lootItemsData.map((entry) => entry.preferredSeller))].sort();
 
@@ -445,6 +451,54 @@ function setupMedicalSelector() {
   });
 }
 
+function formatProvisionValue(value) {
+  return typeof value === "number" ? `${value}` : "N/A";
+}
+
+function compareProvisionStatAsc(a, b, key) {
+  const valueA = typeof a[key] === "number" ? a[key] : Number.POSITIVE_INFINITY;
+  const valueB = typeof b[key] === "number" ? b[key] : Number.POSITIVE_INFINITY;
+
+  if (valueA !== valueB) {
+    return valueA - valueB;
+  }
+
+  return a.name.localeCompare(b.name);
+}
+
+function renderProvisions() {
+  if (!provisionsGridEl || !provisionsSortEl) {
+    return;
+  }
+
+  const sortBy = provisionsSortEl.value;
+  const sortedItems = [...provisionsItemsData];
+
+  if (sortBy === "hydrationAsc") {
+    sortedItems.sort((a, b) => compareProvisionStatAsc(a, b, "hydration"));
+  } else if (sortBy === "energyAsc") {
+    sortedItems.sort((a, b) => compareProvisionStatAsc(a, b, "energy"));
+  } else {
+    sortedItems.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  provisionsGridEl.innerHTML = sortedItems
+    .map(
+      (entry) => `
+        <article class="provision-card">
+          <h3>${entry.name}</h3>
+          <p><strong>Type:</strong> ${entry.type}</p>
+          <div class="provision-stats">
+            <span class="stat-chip">Hydration: ${formatProvisionValue(entry.hydration)}</span>
+            <span class="stat-chip">Energy: ${formatProvisionValue(entry.energy)}</span>
+          </div>
+          <p><strong>Where to get:</strong> ${entry.source || "Unknown"}</p>
+        </article>
+      `,
+    )
+    .join("");
+}
+
 function renderMedicalGuide() {
   const key = conditionSelectEl.value;
   const situation = medicalSituations[key];
@@ -481,6 +535,7 @@ function init() {
   renderVultureCards();
   renderBlueprints();
   renderMedicalGuide();
+  renderProvisions();
   startResetCountdown();
   setupBlueprintCarousel();
 
@@ -488,6 +543,9 @@ function init() {
   vendorFilterEl.addEventListener("change", renderLootTable);
   sortByEl.addEventListener("change", renderLootTable);
   conditionSelectEl.addEventListener("change", renderMedicalGuide);
+  if (provisionsSortEl) {
+    provisionsSortEl.addEventListener("change", renderProvisions);
+  }
 }
 
 init();

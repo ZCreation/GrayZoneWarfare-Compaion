@@ -112,13 +112,14 @@ h2 {
   border-radius: 999px;
   background: rgba(36, 68, 60, 0.25);
   font-size: 0.9rem;
-  transition: border-color 180ms ease, background-color 180ms ease;
 }
 
-.hero__chips a:hover,
+.hero__chips a:visited {
+  color: var(--text-main);
+}
+
 .hero__chips a:focus-visible {
-  border-color: rgba(121, 214, 183, 0.65);
-  background: rgba(53, 95, 84, 0.4);
+  color: var(--text-main);
 }
 
 main {

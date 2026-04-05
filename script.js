@@ -36,6 +36,7 @@ const blueprintLocations = [
     coords: "143, 129",
     danger: "High",
     missionTip: "Retrieve the flash drives and report back to Turncoat (x4).",
+    weaponPrice: "N/A",
     ammoType: "5.45x39mm",
     extractionTip: "Complete all 4 hand-ins to Turncoat, then proceed with weapon unlock flow.",
   },
@@ -46,6 +47,7 @@ const blueprintLocations = [
     danger: "High",
     missionTip:
       "Interact with the magazine to start the mission, collect the item, then return to base camp or outpost.",
+    weaponPrice: "N/A",
     extractionTip: "Complete mission turn-in, then claim your new weapon from Gunny.",
   },
   {

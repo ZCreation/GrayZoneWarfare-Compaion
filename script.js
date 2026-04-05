@@ -58,6 +58,15 @@ const blueprintLocations = [
     weaponPrice: "$17,800",
     extractionTip: "Complete mission turn-in at Vulture Outpost, then claim your weapon.",
   },
+  {
+    name: "MCX",
+    location: "Midnight Sapphire",
+    coords: "171, 166",
+    danger: "High",
+    missionTip:
+      "Interact with the magazine to start the mission, collect the item, then return to Banshee.",
+    extractionTip: "Complete mission turn-in with Banshee, then continue weapon unlock flow.",
+  },
 ];
 
 const medicalSituations = {

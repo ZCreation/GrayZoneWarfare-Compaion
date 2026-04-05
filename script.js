@@ -193,6 +193,7 @@ const blueprintPrevEl = document.getElementById("blueprintPrev");
 const blueprintNextEl = document.getElementById("blueprintNext");
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
+const userCountValueEl = document.getElementById("userCountValue");
 const provisionsSearchEl = document.getElementById("provisionsSearch");
 const provisionsSortEl = document.getElementById("provisionsSort");
 const provisionsTableBodyEl = document.getElementById("provisionsTableBody");
@@ -329,6 +330,56 @@ function updateResetCountdown() {
 function startResetCountdown() {
   updateResetCountdown();
   setInterval(updateResetCountdown, 1000);
+}
+
+function formatCompactCount(value) {
+  if (!Number.isFinite(value)) {
+    return "N/A";
+  }
+
+  const absValue = Math.abs(value);
+  if (absValue < 1000) {
+    return `${Math.round(value)}`;
+  }
+
+  const units = [
+    { threshold: 1e12, suffix: "t" },
+    { threshold: 1e9, suffix: "b" },
+    { threshold: 1e6, suffix: "m" },
+    { threshold: 1e3, suffix: "k" },
+  ];
+
+  for (const unit of units) {
+    if (absValue >= unit.threshold) {
+      const scaled = value / unit.threshold;
+      const precision = Math.abs(scaled) >= 10 ? 0 : 1;
+      return `${Number(scaled.toFixed(precision))}${unit.suffix}`;
+    }
+  }
+
+  return `${Math.round(value)}`;
+}
+
+async function updateUserCounter() {
+  if (!userCountValueEl) {
+    return;
+  }
+
+  try {
+    const endpoint =
+      "https://api.countapi.xyz/hit/grayzoneintelboard/people-using-site";
+    const response = await fetch(endpoint, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error("counter request failed");
+    }
+
+    const data = await response.json();
+    const value = typeof data.value === "number" ? data.value : null;
+    userCountValueEl.textContent = value !== null ? formatCompactCount(value) : "N/A";
+  } catch (error) {
+    userCountValueEl.textContent = "N/A";
+  }
 }
 
 function renderLootItemCell(entry) {
@@ -556,6 +607,7 @@ function init() {
   renderMedicalGuide();
   renderProvisionsTable();
   startResetCountdown();
+  updateUserCounter();
   setupBlueprintCarousel();
 
   itemSearchEl.addEventListener("input", renderLootTable);

@@ -56,6 +56,7 @@ footer {
 }
 
 .hero {
+  position: relative;
   padding: 3rem 0 2rem;
   display: grid;
   gap: 1rem;
@@ -64,6 +65,34 @@ footer {
   justify-items: center;
   text-align: center;
   animation: slideIn 700ms ease both;
+}
+
+.user-counter {
+  position: absolute;
+  top: 0.65rem;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.38rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid rgba(121, 214, 183, 0.5);
+  background: rgba(7, 17, 20, 0.78);
+  color: var(--text-main);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.user-counter__label {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.user-counter strong {
+  font-size: 0.95rem;
+  color: var(--primary);
+  min-width: 2ch;
 }
 
 .hero__text {
@@ -418,6 +447,12 @@ footer {
     place-content: center;
     align-items: center;
     gap: 0.75rem;
+  }
+
+  .user-counter {
+    position: static;
+    justify-self: center;
+    margin-bottom: 0.2rem;
   }
 
   .panel {

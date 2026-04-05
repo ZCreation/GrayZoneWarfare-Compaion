@@ -484,9 +484,17 @@ function renderProvisions() {
 
   provisionsGridEl.innerHTML = sortedItems
     .map(
-      (entry) => `
+      (entry) => {
+        const imageMarkup = entry.image
+          ? `<img class="provision-thumb" src="${entry.image}" alt="${entry.name}" loading="lazy" referrerpolicy="no-referrer" />`
+          : '<div class="provision-thumb provision-thumb--empty" aria-hidden="true">N/A</div>';
+
+        return `
         <article class="provision-card">
-          <h3>${entry.name}</h3>
+          <div class="provision-header">
+            ${imageMarkup}
+            <h3>${entry.name}</h3>
+          </div>
           <p><strong>Type:</strong> ${entry.type}</p>
           <div class="provision-stats">
             <span class="stat-chip">Hydration: ${formatProvisionValue(entry.hydration)}</span>
@@ -494,7 +502,8 @@ function renderProvisions() {
           </div>
           <p><strong>Where to get:</strong> ${entry.source || "Unknown"}</p>
         </article>
-      `,
+      `;
+      },
     )
     .join("");
 }

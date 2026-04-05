@@ -60,7 +60,7 @@ const blueprintLocations = [
     danger: "High",
     missionTip:
       "Interact with the magazine to start the mission, collect the item, then return to Gunny.",
-    weaponPrice: "6.5k",
+    weaponPrice: "$6.5k",
     ammoType: "12-Gauge",
     extractionTip: "Complete mission turn-in with Gunny, then continue weapon unlock at Vendor.",
   },

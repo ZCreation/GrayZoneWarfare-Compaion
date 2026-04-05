@@ -193,6 +193,7 @@ const blueprintPrevEl = document.getElementById("blueprintPrev");
 const blueprintNextEl = document.getElementById("blueprintNext");
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
+const provisionsSearchEl = document.getElementById("provisionsSearch");
 const provisionsSortEl = document.getElementById("provisionsSort");
 const provisionsTableBodyEl = document.getElementById("provisionsTableBody");
 
@@ -484,8 +485,11 @@ function renderProvisionsTable() {
     return;
   }
 
+  const query = (provisionsSearchEl?.value || "").trim().toLowerCase();
   const sortBy = provisionsSortEl.value;
-  const sortedItems = [...provisionsItemsData];
+  const sortedItems = provisionsItemsData.filter((entry) =>
+    entry.name.toLowerCase().includes(query),
+  );
 
   if (sortBy === "hydrationAsc") {
     sortedItems.sort((a, b) => compareProvisionStatAsc(a, b, "hydration"));
@@ -560,6 +564,9 @@ function init() {
   conditionSelectEl.addEventListener("change", renderMedicalGuide);
   if (provisionsSortEl) {
     provisionsSortEl.addEventListener("change", renderProvisionsTable);
+  }
+  if (provisionsSearchEl) {
+    provisionsSearchEl.addEventListener("input", renderProvisionsTable);
   }
 }
 

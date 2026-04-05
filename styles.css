@@ -116,29 +116,30 @@ h2 {
 }
 
 .hero__chips a {
-  color: var(--text-main);
+  color: #e9fff7;
   text-decoration: none;
   padding: 0.45rem 0.85rem;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(121, 214, 183, 0.8);
   border-radius: 999px;
-  background: rgba(36, 68, 60, 0.25);
+  background: linear-gradient(135deg, rgba(67, 191, 148, 0.36), rgba(27, 80, 65, 0.55));
   font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px rgba(121, 214, 183, 0.25), 0 6px 16px rgba(35, 126, 98, 0.35);
 }
 
 .hero__chips a:visited {
-  color: var(--text-main);
+  color: #e9fff7;
 }
 
 .hero__chips a:focus-visible {
-  color: var(--text-main);
+  color: #e9fff7;
 }
 
 .hero__chips .steam-cta {
-  border-color: rgba(121, 214, 183, 0.8);
-  background: linear-gradient(135deg, rgba(67, 191, 148, 0.36), rgba(27, 80, 65, 0.55));
-  color: #e9fff7;
-  font-weight: 700;
-  box-shadow: 0 0 0 1px rgba(121, 214, 183, 0.25), 0 6px 16px rgba(35, 126, 98, 0.35);
+  border-color: rgba(246, 210, 137, 0.85);
+  background: linear-gradient(135deg, rgba(246, 210, 137, 0.38), rgba(145, 101, 29, 0.62));
+  color: #fff7df;
+  box-shadow: 0 0 0 1px rgba(246, 210, 137, 0.3), 0 6px 16px rgba(122, 84, 24, 0.35);
 }
 
 .hero__chips .steam-cta:visited,

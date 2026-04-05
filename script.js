@@ -65,6 +65,7 @@ const blueprintLocations = [
     danger: "High",
     missionTip:
       "Interact with the magazine to start the mission, collect the item, then return to Banshee.",
+    weaponPrice: "$13,200 from Banshee",
     extractionTip: "Complete mission turn-in with Banshee, then continue weapon unlock flow.",
   },
 ];

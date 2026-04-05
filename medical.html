@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Guide | Gray Zone Intel Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="loot.html">Loot</a>
+      <a href="vulture.html">Vulture</a>
+      <a href="blueprints.html">Blueprints</a>
+      <a class="current" href="medical.html">Medical</a>
+      <a href="provisions.html">Food and Drinks</a>
+      <a href="https://store.steampowered.com/app/2479810/Gray_Zone_Warfare/" target="_blank" rel="noopener noreferrer">Steam Page</a>
+    </nav>
+
+    <header class="hero page-header">
+      <div class="hero__text">
+        <h2>Medical and Healing Guide</h2>
+        <p>Identify the status effect you have, then follow the correct treatment.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel" id="medical">
+        <div class="toolbar compact">
+          <label for="conditionSelect">Status Effect</label>
+          <select id="conditionSelect"></select>
+        </div>
+
+        <article id="medicalGuide" class="medical-guide" aria-live="polite"></article>
+      </section>
+    </main>
+
+    <footer>
+      <p>Community notes: update values weekly after patches. This page is fan-made and not official.</p>
+    </footer>
+
+    <script src="medical.js"></script>
+  </body>
+</html>

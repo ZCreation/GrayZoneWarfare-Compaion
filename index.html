@@ -19,142 +19,58 @@
   <body>
     <div class="atmosphere" aria-hidden="true"></div>
 
-    <header class="hero">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="current" href="index.html">Home</a>
+      <a href="loot.html">Loot</a>
+      <a href="vulture.html">Vulture</a>
+      <a href="blueprints.html">Blueprints</a>
+      <a href="medical.html">Medical</a>
+      <a href="provisions.html">Food and Drinks</a>
+      <a href="https://store.steampowered.com/app/2479810/Gray_Zone_Warfare/" target="_blank" rel="noopener noreferrer">Steam Page</a>
+    </nav>
+
+    <header class="hero page-header">
       <div class="hero__text">
         <img class="hero__logo" src="assets/gray-zone-logo.png" alt="Gray Zone Intel Board" />
         <p>
-          Track loot values, find weekly vulture routes, discover blueprint stashes,
-          and handle medical situations faster in the field.
+          Pick a section below for focused intel. Each tool now has its own page for cleaner browsing.
         </p>
-      </div>
-      <div class="hero__chips" role="list" aria-label="Quick categories">
-        <a role="listitem" href="#loot-prices">Loot Economy</a>
-        <a role="listitem" href="#vulture-locations">Vulture Weekly</a>
-        <a role="listitem" href="#blueprints">Blueprint Routes</a>
-        <a role="listitem" href="#medical">Medical Field Guide</a>
-        <a role="listitem" href="#provisions">Food and Drinks</a>
-        <a class="steam-cta" role="listitem" href="https://store.steampowered.com/app/2479810/Gray_Zone_Warfare/" target="_blank" rel="noopener noreferrer">Steam Page</a>
       </div>
     </header>
 
     <main>
-      <section class="panel" id="vulture-locations">
+      <section class="panel">
         <div class="panel__heading">
-          <h2>Weekly Vulture Locations</h2>
-          <p>Current active points of interest and loot sweep notes.</p>
-          <p class="update-note">
-            Reset schedule: Every Monday at 8:00 AM EDT.
-            <span id="resetCountdown" class="countdown-badge">Calculating...</span>
-          </p>
-          <p class="update-note">Tip: If the area has not been claimed yet, there will be enemies.</p>
+          <h2>Intel Sections</h2>
+          <p>Open the page you need and keep the rest out of the way.</p>
         </div>
 
-        <div id="vultureCards" class="card-grid"></div>
-      </section>
-
-      <section class="panel" id="blueprints">
-        <div class="panel__heading">
-          <h2>Weapon Blueprint Locations</h2>
-          <p>Known spawns, danger level, and extraction notes.</p>
-        </div>
-
-        <div class="blueprint-carousel">
-          <button id="blueprintPrev" class="blueprint-nav" type="button" aria-label="Previous blueprints">&#10094;</button>
-          <div id="blueprintList" class="list-grid blueprint-track"></div>
-          <button id="blueprintNext" class="blueprint-nav" type="button" aria-label="Next blueprints">&#10095;</button>
-        </div>
-      </section>
-
-      <section class="panel" id="medical">
-        <div class="panel__heading">
-          <h2>Medical and Healing Guide</h2>
-          <p>Identify the status effect you have, then follow the correct treatment.</p>
-        </div>
-
-        <div class="toolbar compact">
-          <label for="conditionSelect">Status Effect</label>
-          <select id="conditionSelect"></select>
-        </div>
-
-        <article id="medicalGuide" class="medical-guide" aria-live="polite"></article>
-      </section>
-
-      <section class="panel" id="provisions">
-        <div class="panel__heading">
-          <h2>Food and Drinks Provisions</h2>
-          <p>Compare hydration, energy, and where to find each provision item.</p>
-        </div>
-
-        <div class="toolbar">
-          <label for="provisionsSearch">Search Item</label>
-          <input id="provisionsSearch" type="search" placeholder="Type food/drink name..." />
-
-          <label for="provisionsSort">Sort Provisions</label>
-          <select id="provisionsSort">
-            <option value="name">A-Z</option>
-            <option value="hydrationAsc">Hydration (Low-High)</option>
-            <option value="energyAsc">Energy (Low-High)</option>
-          </select>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Type</th>
-                <th>Hydration</th>
-                <th>Energy</th>
-                <th>Where to Get</th>
-              </tr>
-            </thead>
-            <tbody id="provisionsTableBody"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="panel" id="loot-prices">
-        <div class="panel__heading">
-          <h2>Loot Item Prices</h2>
-          <p>Pre-0.4 base values and preferred seller reference.</p>
-          <p class="update-note">
-            Note: These values are from before update 0.4 and may change after new patches.
-          </p>
-        </div>
-
-        <div class="toolbar">
-          <label for="itemSearch">Search Item</label>
-          <input id="itemSearch" type="search" placeholder="Type item name..." />
-
-          <label for="vendorFilter">Preferred Seller</label>
-          <select id="vendorFilter">
-            <option value="all">All Sellers</option>
-          </select>
-
-          <label for="sortBy">Sort By</label>
-          <select id="sortBy">
-            <option value="item">Item (A-Z)</option>
-            <option value="category">Category (A-Z)</option>
-            <option value="weight">Weight (Low-High)</option>
-            <option value="baseValueDesc">Most Expensive</option>
-            <option value="baseValueAsc">Cheapest</option>
-            <option value="preferredSeller">Preferred Seller (A-Z)</option>
-          </select>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Category</th>
-                <th>Weight</th>
-                <th>Base Value (Pre-0.4)</th>
-                <th>Preferred Seller</th>
-              </tr>
-            </thead>
-            <tbody id="lootTableBody"></tbody>
-          </table>
+        <div class="home-grid">
+          <article class="home-card">
+            <h3>Loot Economy</h3>
+            <p>Searchable pre-0.4 loot table with seller, value, weight, and item images.</p>
+            <a href="loot.html">Open Loot Page</a>
+          </article>
+          <article class="home-card">
+            <h3>Vulture Weekly</h3>
+            <p>Current active zones, risk level, coordinates, and live reset countdown.</p>
+            <a href="vulture.html">Open Vulture Page</a>
+          </article>
+          <article class="home-card">
+            <h3>Blueprint Routes</h3>
+            <p>Carousel of known weapon blueprint locations, mission tips, and extraction notes.</p>
+            <a href="blueprints.html">Open Blueprints Page</a>
+          </article>
+          <article class="home-card">
+            <h3>Medical Guide</h3>
+            <p>Status-based diagnosis and treatment flow for field recovery.</p>
+            <a href="medical.html">Open Medical Page</a>
+          </article>
+          <article class="home-card">
+            <h3>Food and Drinks</h3>
+            <p>Provisions table with images, hydration, energy, source, search, and sorting.</p>
+            <a href="provisions.html">Open Provisions Page</a>
+          </article>
         </div>
       </section>
     </main>
@@ -164,9 +80,5 @@
         Community notes: update values weekly after patches. This page is fan-made and not official.
       </p>
     </footer>
-
-    <script src="lootData.js"></script>
-    <script src="provisionsData.js"></script>
-    <script src="script.js"></script>
   </body>
 </html>

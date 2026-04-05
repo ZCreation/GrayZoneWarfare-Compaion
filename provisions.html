@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food and Drinks | Gray Zone Intel Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="loot.html">Loot</a>
+      <a href="vulture.html">Vulture</a>
+      <a href="blueprints.html">Blueprints</a>
+      <a href="medical.html">Medical</a>
+      <a class="current" href="provisions.html">Food and Drinks</a>
+      <a href="https://store.steampowered.com/app/2479810/Gray_Zone_Warfare/" target="_blank" rel="noopener noreferrer">Steam Page</a>
+    </nav>
+
+    <header class="hero page-header">
+      <div class="hero__text">
+        <h2>Food and Drinks Provisions</h2>
+        <p>Compare hydration, energy, and where to find each provision item.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel" id="provisions">
+        <div class="toolbar">
+          <label for="provisionsSearch">Search Item</label>
+          <input id="provisionsSearch" type="search" placeholder="Type food/drink name..." />
+
+          <label for="provisionsSort">Sort Provisions</label>
+          <select id="provisionsSort">
+            <option value="name">A-Z</option>
+            <option value="hydrationAsc">Hydration (Low-High)</option>
+            <option value="energyAsc">Energy (Low-High)</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Type</th>
+                <th>Hydration</th>
+                <th>Energy</th>
+                <th>Where to Get</th>
+              </tr>
+            </thead>
+            <tbody id="provisionsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Community notes: update values weekly after patches. This page is fan-made and not official.</p>
+    </footer>
+
+    <script src="provisionsData.js"></script>
+    <script src="provisions.js"></script>
+  </body>
+</html>

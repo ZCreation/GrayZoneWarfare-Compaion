@@ -194,7 +194,7 @@ const blueprintNextEl = document.getElementById("blueprintNext");
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
 const provisionsSortEl = document.getElementById("provisionsSort");
-const provisionsGridEl = document.getElementById("provisionsGrid");
+const provisionsTableBodyEl = document.getElementById("provisionsTableBody");
 
 const sellers = [...new Set(lootItemsData.map((entry) => entry.preferredSeller))].sort();
 
@@ -466,8 +466,21 @@ function compareProvisionStatAsc(a, b, key) {
   return a.name.localeCompare(b.name);
 }
 
-function renderProvisions() {
-  if (!provisionsGridEl || !provisionsSortEl) {
+function renderProvisionItemCell(entry) {
+  const imageMarkup = entry.image
+    ? `<img class="loot-thumb" src="${entry.image}" alt="${entry.name}" loading="lazy" referrerpolicy="no-referrer" />`
+    : '<div class="loot-thumb loot-thumb--empty" aria-hidden="true">N/A</div>';
+
+  return `
+    <div class="loot-item-cell">
+      ${imageMarkup}
+      <span>${entry.name}</span>
+    </div>
+  `;
+}
+
+function renderProvisionsTable() {
+  if (!provisionsTableBodyEl || !provisionsSortEl) {
     return;
   }
 
@@ -482,30 +495,23 @@ function renderProvisions() {
     sortedItems.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  provisionsGridEl.innerHTML = sortedItems
+  const rows = sortedItems
     .map(
-      (entry) => {
-        const imageMarkup = entry.image
-          ? `<img class="provision-thumb" src="${entry.image}" alt="${entry.name}" loading="lazy" referrerpolicy="no-referrer" />`
-          : '<div class="provision-thumb provision-thumb--empty" aria-hidden="true">N/A</div>';
-
-        return `
-        <article class="provision-card">
-          <div class="provision-header">
-            ${imageMarkup}
-            <h3>${entry.name}</h3>
-          </div>
-          <p><strong>Type:</strong> ${entry.type}</p>
-          <div class="provision-stats">
-            <span class="stat-chip">Hydration: ${formatProvisionValue(entry.hydration)}</span>
-            <span class="stat-chip">Energy: ${formatProvisionValue(entry.energy)}</span>
-          </div>
-          <p><strong>Where to get:</strong> ${entry.source || "Unknown"}</p>
-        </article>
-      `;
-      },
+      (entry) => `
+        <tr>
+          <td data-label="Item">${renderProvisionItemCell(entry)}</td>
+          <td data-label="Type">${entry.type || "Unknown"}</td>
+          <td data-label="Hydration">${formatProvisionValue(entry.hydration)}</td>
+          <td data-label="Energy">${formatProvisionValue(entry.energy)}</td>
+          <td data-label="Where to Get">${entry.source || "Unknown"}</td>
+        </tr>
+      `,
     )
     .join("");
+
+  provisionsTableBodyEl.innerHTML =
+    rows ||
+    '<tr><td colspan="5">No provisions available right now.</td></tr>';
 }
 
 function renderMedicalGuide() {
@@ -544,7 +550,7 @@ function init() {
   renderVultureCards();
   renderBlueprints();
   renderMedicalGuide();
-  renderProvisions();
+  renderProvisionsTable();
   startResetCountdown();
   setupBlueprintCarousel();
 
@@ -553,7 +559,7 @@ function init() {
   sortByEl.addEventListener("change", renderLootTable);
   conditionSelectEl.addEventListener("change", renderMedicalGuide);
   if (provisionsSortEl) {
-    provisionsSortEl.addEventListener("change", renderProvisions);
+    provisionsSortEl.addEventListener("change", renderProvisionsTable);
   }
 }
 

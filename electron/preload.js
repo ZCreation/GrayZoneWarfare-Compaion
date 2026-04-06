@@ -126,6 +126,10 @@ function addUpdateButton() {
   document.body.appendChild(button);
 }
 
+contextBridge.exposeInMainWorld("grayZoneApp", {
+  getTwitchStreamGroups: () => ipcRenderer.invoke("twitch:get-stream-groups"),
+});
+
 window.addEventListener("load", () => {
   addUpdateButton();
   applyPageScrollMode();

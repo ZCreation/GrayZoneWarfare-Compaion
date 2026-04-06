@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitch Streams | Gray Zone Intel Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <header class="hero page-header">
+      <div class="hero__text">
+        <h2>Twitch Streams</h2>
+        <p>Watch the biggest Gray Zone channels or discover smaller live creators under 20 viewers.</p>
+      </div>
+      <nav class="site-nav site-nav--hero" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="loot.html">Loot</a>
+        <a href="vulture.html">Vulture</a>
+        <a href="blueprints.html">Blueprints</a>
+        <a href="medical.html">Medical</a>
+        <a href="provisions.html">Food and Drinks</a>
+        <a class="current" href="twitch.html">Streamers</a>
+        <a href="https://mapgenie.io/gray-zone-warfare/maps/lamang-island" target="_blank" rel="noopener noreferrer">Map</a>
+        <a href="https://store.steampowered.com/app/2479810/Gray_Zone_Warfare/" target="_blank" rel="noopener noreferrer">Steam Page</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="panel__heading">
+          <h2>Gray Zone Warfare On Twitch</h2>
+          <p>Top 3 biggest streams first, then a list of up to 15 smaller live channels under 20 viewers.</p>
+        </div>
+
+        <p class="directory-link-row">
+          <a href="https://www.twitch.tv/directory/category/gray-zone-warfare?sort=VIEWER_COUNT" target="_blank" rel="noopener noreferrer">Open full Twitch Gray Zone directory</a>
+        </p>
+
+        <section class="stream-section" aria-labelledby="featured-streams-heading">
+          <div class="stream-section__header">
+            <h3 id="featured-streams-heading">Top 3 Highest Viewers</h3>
+            <p>The biggest live Gray Zone channels right now.</p>
+          </div>
+          <div id="featured-streams" class="streamers-grid">
+            <p class="loading">Loading streams...</p>
+          </div>
+        </section>
+
+        <section class="stream-section" aria-labelledby="lower-streams-heading">
+          <div class="stream-section__header">
+            <h3 id="lower-streams-heading">Smaller Channels Under 20 Viewers</h3>
+            <p>Up to 15 live channels for viewers looking to discover smaller streamers.</p>
+          </div>
+          <div id="lower-streams" class="streamers-grid streamers-grid--compact">
+            <p class="loading">Loading streams...</p>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Community notes: update values weekly after patches. This page is fan-made and not official.
+      </p>
+      <p class="tiny-credit">
+        Map reference credits:
+        <a href="https://mapgenie.io/gray-zone-warfare/maps/lamang-island" target="_blank" rel="noopener noreferrer">MapGenie - Lamang Island Map</a>
+        | Data reference credits:
+        <a href="https://gray-zone-warfare.fandom.com/wiki/Gray_Zone_Warfare_Wiki" target="_blank" rel="noopener noreferrer">Gray Zone Warfare Wiki</a>
+      </p>
+    </footer>
+
+    <script src="twitch.js"></script>
+  </body>
+</html>

@@ -648,3 +648,133 @@ footer {
     flex-basis: 34px;
   }
 }
+
+.stream-section {
+  margin-top: 1.5rem;
+}
+
+.stream-section:first-of-type {
+  margin-top: 1rem;
+}
+
+.stream-section__header {
+  margin-bottom: 0.85rem;
+}
+
+.stream-section__header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.stream-section__header p {
+  margin: 0.2rem 0 0;
+  color: var(--text-dim);
+}
+
+.streamers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.streamers-grid--compact {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.directory-link-row {
+  margin: 0.75rem 0 0;
+}
+
+.directory-link-row a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.streamer-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(10, 21, 25, 0.9);
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.streamer-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(121, 214, 183, 0.15);
+}
+
+.streamer-rank {
+  background: linear-gradient(135deg, var(--primary-strong), var(--primary));
+  color: var(--bg-deep);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.8rem;
+  text-align: center;
+}
+
+.streamer-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.streamer-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid var(--primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.streamer-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.streamer-info h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+.streamer-viewer-count {
+  margin: 0.25rem 0 0;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.streamer-title {
+  margin: 0.2rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.streamer-action {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.loading,
+.error,
+.empty-state {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-dim);
+  font-size: 0.98rem;
+}
+
+.error {
+  color: var(--warn);
+}

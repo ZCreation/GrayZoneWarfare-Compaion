@@ -1,14 +1,14 @@
 const vultureWeeks = {
   "Current Rotation": [
     {
-      zone: "TITAN",
-      coords: "153, 121",
+      zone: "BRONCO",
+      coords: "142, 134",
       note: "Active vulture location this week. Sweep outer structures first, then center areas.",
       risk: "Low",
     },
     {
-      zone: "WINCHESTER",
-      coords: "202, 148",
+      zone: "HARRISON",
+      coords: "197, 125",
       note: "Active vulture location this week. Check hidden corners and lockable loot rooms.",
       risk: "High",
     },

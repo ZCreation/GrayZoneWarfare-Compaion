@@ -42,6 +42,52 @@ function getDialogWindow() {
   return mainWindow && !mainWindow.isDestroyed() ? mainWindow : null;
 }
 
+function pickUpAndComingStreams(streams) {
+  const underTwenty = streams.filter((stream) => stream.viewers < 20);
+
+  const bucketPlan = [
+    { min: 0, max: 5, take: 4 },
+    { min: 6, max: 10, take: 4 },
+    { min: 11, max: 15, take: 4 },
+    { min: 16, max: 19, take: 3 },
+  ];
+
+  const selected = [];
+  const usedIds = new Set();
+
+  for (const bucket of bucketPlan) {
+    const bucketStreams = underTwenty
+      .filter((stream) => stream.viewers >= bucket.min && stream.viewers <= bucket.max)
+      .sort((left, right) => right.viewers - left.viewers)
+      .slice(0, bucket.take);
+
+    for (const stream of bucketStreams) {
+      if (usedIds.has(stream.id)) {
+        continue;
+      }
+
+      selected.push(stream);
+      usedIds.add(stream.id);
+    }
+  }
+
+  if (selected.length < 15) {
+    const remaining = underTwenty
+      .filter((stream) => !usedIds.has(stream.id))
+      .sort((left, right) => left.viewers - right.viewers);
+
+    for (const stream of remaining) {
+      selected.push(stream);
+
+      if (selected.length >= 15) {
+        break;
+      }
+    }
+  }
+
+  return selected.slice(0, 15);
+}
+
 async function getGrayZoneStreams() {
   const response = await fetch("https://gql.twitch.tv/gql", {
     method: "POST",
@@ -76,7 +122,7 @@ async function getGrayZoneStreams() {
 
   return {
     featured: streams.slice(0, 3),
-    upAndComing: streams.slice(3, 18),
+    upAndComing: pickUpAndComingStreams(streams),
   };
 }
 

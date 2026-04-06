@@ -76,7 +76,7 @@ async function getGrayZoneStreams() {
 
   return {
     featured: streams.slice(0, 3),
-    lowerViewer: streams.filter((stream) => stream.viewers < 20).slice(0, 15),
+    upAndComing: streams.slice(3, 18),
   };
 }
 

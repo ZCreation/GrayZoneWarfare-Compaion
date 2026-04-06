@@ -56,7 +56,7 @@ function renderStreamGroup(container, streams, options = {}) {
 
 async function fetchStreams() {
   const featuredContainer = document.getElementById("featured-streams");
-  const lowerContainer = document.getElementById("lower-streams");
+  const upcomingContainer = document.getElementById("upcoming-streams");
 
   try {
     const response = await window.grayZoneApp?.getTwitchStreamGroups?.();
@@ -70,8 +70,8 @@ async function fetchStreams() {
       emptyMessage: "No live Gray Zone streams were found.",
     });
 
-    renderStreamGroup(lowerContainer, response.lowerViewer, {
-      emptyMessage: "No live Gray Zone streams under 20 viewers were found right now.",
+    renderStreamGroup(upcomingContainer, response.upAndComing, {
+      emptyMessage: "No up-and-coming Gray Zone streams were found right now.",
     });
   } catch (error) {
     console.error("Failed to load Twitch streams:", error);
@@ -82,7 +82,7 @@ async function fetchStreams() {
     `;
 
     featuredContainer.innerHTML = errorMarkup;
-    lowerContainer.innerHTML = errorMarkup;
+    upcomingContainer.innerHTML = errorMarkup;
   }
 }
 

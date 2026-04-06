@@ -657,6 +657,16 @@ footer {
   margin-top: 1.5rem;
 }
 
+.directory-link-row {
+  margin: 0.75rem 0 0;
+}
+
+.directory-link-row a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
 .streamer-card {
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -720,6 +730,11 @@ footer {
   margin: 0.15rem 0 0;
   color: var(--text-dim);
   font-size: 0.85rem;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .streamer-action {

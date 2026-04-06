@@ -1,4 +1,4 @@
-const { ipcRenderer, webFrame } = require("electron");
+const { contextBridge, ipcRenderer, webFrame } = require("electron");
 
 let pendingFit = false;
 const fitPages = new Set(["index.html", "vulture.html", "blueprints.html", "medical.html"]);
@@ -125,6 +125,10 @@ function addUpdateButton() {
 
   document.body.appendChild(button);
 }
+
+contextBridge.exposeInMainWorld("grayZoneApp", {
+  getTopTwitchStreams: () => ipcRenderer.invoke("twitch:get-top-streams"),
+});
 
 window.addEventListener("load", () => {
   addUpdateButton();

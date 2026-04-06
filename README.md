@@ -1,18 +1,16 @@
 # Gray Zone Intel Board Desktop App
 
-This project can now run as a Windows desktop app using Electron.
+## Download & Install
 
-## Automatic updates
+**[📥 Download Latest Version](https://github.com/ZCreation/GrayZoneWarfare-Compaion/releases)**
 
-Installed copies of the app can update automatically when opened, but only if you distribute the Windows installer build and publish each release to GitHub Releases.
+Simply download the `.exe` file, run it, then open the app. Click "Check Updates" inside to get the latest version anytime.
 
-Update flow:
+---
 
-1. Increase the version in `package.json`
-2. Publish the new installer release to GitHub
-3. Installed copies check for updates when the app opens
-4. If a newer version exists, the update downloads automatically
-5. The app prompts the user to restart and install it
+## For Developers
+
+This project runs as a Windows desktop app using Electron. The app checks for updates automatically and prompts users to install new versions.
 
 ## Run locally
 

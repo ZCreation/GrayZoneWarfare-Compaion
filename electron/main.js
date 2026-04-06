@@ -5,18 +5,6 @@ const { autoUpdater } = require("electron-updater");
 
 const isMac = process.platform === "darwin";
 const appRootUrl = pathToFileURL(path.join(__dirname, "..") + path.sep).toString();
-const twitchClientId = "kimne78kx3ncx6brgo4mv6wki5h1ko";
-const twitchTopStreamsQuery = [
-  {
-    operationName: "GrayZoneTopStreams",
-    variables: {
-      gameName: "Gray Zone Warfare",
-      limit: 5,
-    },
-    query:
-      "query GrayZoneTopStreams($gameName: String!, $limit: Int!) { game(name: $gameName) { name streams(first: $limit) { edges { node { id title viewersCount previewImageURL(width: 320, height: 180) broadcaster { login displayName profileImageURL(width: 70) } } } } } }",
-  },
-];
 let mainWindow;
 let manualUpdateCheckPending = false;
 let handlersRegistered = false;
@@ -40,41 +28,6 @@ function shouldEnableAutoUpdates() {
 
 function getDialogWindow() {
   return mainWindow && !mainWindow.isDestroyed() ? mainWindow : null;
-}
-
-async function getTopGrayZoneStreams() {
-  const response = await fetch("https://gql.twitch.tv/gql", {
-    method: "POST",
-    headers: {
-      "Client-ID": twitchClientId,
-      "Content-Type": "text/plain;charset=UTF-8",
-    },
-    body: JSON.stringify(twitchTopStreamsQuery),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Twitch request failed with status ${response.status}`);
-  }
-
-  const payload = await response.json();
-  const edges = payload?.[0]?.data?.game?.streams?.edges || [];
-
-  return edges
-    .map((edge) => edge?.node)
-    .filter(Boolean)
-    .map((stream) => ({
-      id: stream.id,
-      title: stream.title,
-      viewers: stream.viewersCount,
-      thumbnail: stream.previewImageURL,
-      username: stream.broadcaster?.login,
-      name: stream.broadcaster?.displayName,
-      avatar: stream.broadcaster?.profileImageURL,
-      url: stream.broadcaster?.login ? `https://www.twitch.tv/${stream.broadcaster.login}` : null,
-    }))
-    .filter((stream) => stream.username && stream.url)
-    .sort((left, right) => right.viewers - left.viewers)
-    .slice(0, 5);
 }
 
 function registerIpcHandlers() {
@@ -104,20 +57,6 @@ function registerIpcHandlers() {
       return {
         ok: false,
         message: "Could not check for updates right now.",
-      };
-    }
-  });
-
-  ipcMain.handle("twitch:get-top-streams", async () => {
-    try {
-      const streams = await getTopGrayZoneStreams();
-      return { ok: true, streams };
-    } catch (error) {
-      console.error("Failed to fetch Twitch streams:", error);
-
-      return {
-        ok: false,
-        message: "Could not load Twitch streams right now.",
       };
     }
   });

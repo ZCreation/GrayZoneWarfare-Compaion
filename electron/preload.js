@@ -126,10 +126,6 @@ function addUpdateButton() {
   document.body.appendChild(button);
 }
 
-contextBridge.exposeInMainWorld("grayZoneApp", {
-  getTopTwitchStreams: () => ipcRenderer.invoke("twitch:get-top-streams"),
-});
-
 window.addEventListener("load", () => {
   addUpdateButton();
   applyPageScrollMode();

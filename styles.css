@@ -8,6 +8,9 @@
   --warn: #f6d289;
   --text-main: #e4f6f0;
   --text-dim: #9fc7bb;
+  --scroll-track: rgba(7, 17, 20, 0.92);
+  --scroll-thumb: rgba(121, 214, 183, 0.5);
+  --scroll-thumb-hover: rgba(121, 214, 183, 0.78);
   --radius: 18px;
   --shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
 }
@@ -34,6 +37,34 @@ body {
     linear-gradient(145deg, var(--bg-deep), var(--bg-mid));
   line-height: 1.5;
   overflow-x: hidden;
+}
+
+html {
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--scroll-thumb-hover), var(--scroll-thumb));
+  border-radius: 999px;
+  border: 2px solid var(--scroll-track);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9be4cb, var(--scroll-thumb-hover));
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--scroll-track);
 }
 
 .atmosphere {

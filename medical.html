@@ -35,13 +35,131 @@
     </header>
 
     <main>
+      <section class="panel" id="health-overview">
+        <div class="panel__heading">
+          <h2>Health System Overview</h2>
+          <p>Gray Zone Warfare uses body-part simulation — no traditional hit points. Understanding these systems helps you treat the right problem fast.</p>
+        </div>
+
+        <h3 class="subsection-title">Health Panel Indicators</h3>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Wounds <span class="indicator-dot indicator-dot--red"></span></h3>
+            <p>Red markers from projectile or melee hits that bypass protective gear. Categorized as Light, Medium, or Severe. Light wounds heal over time — Medium and Severe require bandages.</p>
+          </div>
+          <div class="card">
+            <h3>Bruises <span class="indicator-dot indicator-dot--purple"></span></h3>
+            <p>Purple markers when projectiles are stopped by protective gear, causing pain. Heal naturally over time — no treatment required.</p>
+          </div>
+          <div class="card">
+            <h3>Treated Wounds <span class="indicator-dot indicator-dot--green"></span></h3>
+            <p>Green markers after Medium or Severe wounds are bandaged. Cause temporary discomfort before healing completely on their own.</p>
+          </div>
+          <div class="card">
+            <h3>Organ Damage</h3>
+            <p>Brain, heart, lungs, and liver can be damaged. Destruction of the heart or brain is instantly fatal. All organ damage is treated with a surgery kit.</p>
+          </div>
+          <div class="card">
+            <h3>Bone Damage</h3>
+            <p>Arm and leg bones can be damaged by impacts or falls. Causes debuffs to the corresponding stamina and movement. Repair with a splint.</p>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Health Factors</h3>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Blood</h3>
+            <p>Blood loss causes progressively worse vision effects and leads to coma if severe. Blood regenerates naturally — but only when hydration and energy are both above 50%.</p>
+          </div>
+          <div class="card">
+            <h3>Intoxication</h3>
+            <p>Builds up with stimulant use. Gradually decreases on its own or can be cleared faster with the appropriate pills.</p>
+          </div>
+          <div class="card">
+            <h3>Radiation</h3>
+            <p>Accumulates in irradiated zones over time. Must be treated with radiation pills — reaching lethal levels causes death.</p>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Stamina Systems</h3>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Leg Stamina</h3>
+            <p>Drains when sprinting, jumping, vaulting, or wading. Fully depleted blocks sprinting, jumping, and vaulting. Heavier carry weight drains it faster. Leg injuries lower the maximum capacity.</p>
+          </div>
+          <div class="card">
+            <h3>Arm Stamina</h3>
+            <p>Drains while aiming, firing, using melee, or vaulting. Unlike legs, full depletion does not block actions — it applies a weapon stability penalty instead. Heavier weapons drain it faster.</p>
+          </div>
+          <div class="card">
+            <h3>Breath Meter</h3>
+            <p>A hidden meter that drains when holding breath, sprinting hard, or when lungs are damaged. When depleted, holding breath for precision aiming is not possible.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="panel" id="medical">
+        <div class="panel__heading">
+          <h2>Status Conditions</h2>
+          <p>Select a status effect to see its causes and field treatment steps.</p>
+        </div>
         <div class="toolbar compact">
           <label for="conditionSelect">Status Effect</label>
           <select id="conditionSelect"></select>
         </div>
 
         <article id="medicalGuide" class="medical-guide" aria-live="polite"></article>
+      </section>
+
+      <section class="panel" id="treatment-ref">
+        <div class="panel__heading">
+          <h2>Treatment Quick Reference</h2>
+          <p>What each medical item type treats — and what it does not.</p>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Bandages</h3>
+            <p><strong>Treat:</strong> Medium and Severe wounds.</p>
+            <p><strong>Don't treat:</strong> Bruises, bones, or organs.</p>
+            <p class="card-tip">Light wounds heal over time — bandages are not always needed for them.</p>
+          </div>
+          <div class="card">
+            <h3>Tourniquets</h3>
+            <p><strong>Treat:</strong> Active bleeding — stops blood drain immediately.</p>
+            <p><strong>Don't treat:</strong> The underlying wounds (still need bandages after).</p>
+            <p class="card-tip">Apply first, treat wounds second. Always carry at least two.</p>
+          </div>
+          <div class="card">
+            <h3>Splints</h3>
+            <p><strong>Treat:</strong> Damaged and destroyed arm and leg bones.</p>
+            <p><strong>Don't treat:</strong> Organ damage, wounds, or bleeding.</p>
+            <p class="card-tip">Required to cure Limping and restore lost stamina capacity from bone injuries.</p>
+          </div>
+          <div class="card">
+            <h3>Surgery Kit</h3>
+            <p><strong>Treat:</strong> Damaged and destroyed organs — brain, heart, lungs, liver.</p>
+            <p><strong>Don't treat:</strong> Wounds, bleeding, or bones.</p>
+            <p class="card-tip">"When in doubt, SurKit it out." Most complex symptoms trace back to organ damage.</p>
+          </div>
+          <div class="card">
+            <h3>Blood Bag</h3>
+            <p><strong>Treat:</strong> Low blood — directly replenishes your blood pool.</p>
+            <p><strong>Don't treat:</strong> Active bleeding (stop the bleed first).</p>
+            <p class="card-tip">Always stop bleeding before using a blood bag or the blood will drain again.</p>
+          </div>
+          <div class="card">
+            <h3>Pills</h3>
+            <p><strong>Treat:</strong> Pain, intoxication, or radiation — depending on pill type.</p>
+            <p><strong>Don't treat:</strong> Structural damage such as organs or bones.</p>
+            <p class="card-tip">Read the item description — each pill type is specialized for one purpose.</p>
+          </div>
+          <div class="card">
+            <h3>Stimulators</h3>
+            <p><strong>Effect:</strong> Alter health system behavior with various buffs and drawbacks.</p>
+            <p><strong>Note:</strong> Some stimulators cause intoxication buildup.</p>
+            <p class="card-tip">Effects are detailed in the item description. Use with awareness of side effects.</p>
+          </div>
+        </div>
       </section>
     </main>
 

@@ -467,6 +467,39 @@ td strong {
   padding-left: 1.2rem;
 }
 
+  .subsection-title {
+    margin: 1.5rem 0 0.75rem;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    color: var(--primary);
+    text-transform: uppercase;
+  }
+
+  .subsection-title:first-of-type {
+    margin-top: 0.5rem;
+  }
+
+  .indicator-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-left: 5px;
+    margin-bottom: 2px;
+  }
+
+  .indicator-dot--red    { background: #e06c55; }
+  .indicator-dot--purple { background: #c678dd; }
+  .indicator-dot--green  { background: #79d6b7; }
+
+  .card-tip {
+    margin: 0.65rem 0 0;
+    font-size: 0.82rem;
+    color: var(--warn);
+  }
+
 footer {
   padding: 0 0 2rem;
   color: var(--text-dim);

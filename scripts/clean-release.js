@@ -39,6 +39,11 @@ function main() {
       continue;
     }
 
+    if (entry.isFile() && /\.nsis\.7z$/i.test(entry.name)) {
+      fs.rmSync(entryPath, { force: true });
+      continue;
+    }
+
     if (entry.isDirectory() && entry.name !== "win-unpacked") {
       fs.rmSync(entryPath, { recursive: true, force: true });
     }

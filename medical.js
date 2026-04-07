@@ -385,34 +385,43 @@ const medicalCategories = [
   },
 ];
 
-const medicalIcons = {
-  "Light Bleeding":           "🩸",
-  "Medium Bleeding":          "🩸",
-  "Severe Bleeding":          "🩸",
-  "Dizzy":                    "💫",
-  "Confused":                 "🌀",
-  "Disorientated":            "😵‍💫",
-  "Dazed":                    "🧠",
-  "Nauseous":                 "🤢",
-  "Hurt / In Pain / Suffering": "😣",
-  "Tremors":                  "〰️",
-  "Upset Stomach":            "🤮",
-  "Limping":                  "🦵",
-  "Encumbered":               "⚖️",
-  "Fatigued":                 "😮‍💨",
-  "Exhausted":                "😴",
-  "Sore Arms":                "💪",
-  "Cramps":                   "✊",
-  "Out of Breath":            "💨",
-  "Coughing":                 "😷",
-  "Thirsty":                  "💧",
-  "Hungry":                   "🍽️",
-  "Dehydrated":               "🌵",
-  "Starving":                 "⚡",
-  "Vision Black-Out":         "⬛",
-  "Blind Spot":               "🔦",
-  "Coma":                     "💀",
+const medicalIconFiles = {
+  "Light Bleeding": "LightBleedIcon.png",
+  "Medium Bleeding": "MediumBleedingIcon.png",
+  "Severe Bleeding": "SevereBleedingIcon.png",
+  "Dizzy": "DizzyIcon.png",
+  "Confused": "OrangeBrainIcon.png",
+  "Disorientated": "Disorientated Status Icon.jpg",
+  "Dazed": "OrangeBrainIcon.png",
+  "Nauseous": "NauseousIcon.png",
+  "Hurt / In Pain / Suffering": "PainIcon.png",
+  "Tremors": "TremorsIcon.png",
+  "Upset Stomach": "missing_icon.png",
+  "Limping": "LimpingIcon.png",
+  "Encumbered": "EncumberedIcon.png",
+  "Fatigued": "FatiguedIcon.png",
+  "Exhausted": "ExhaustedIcon.png",
+  "Sore Arms": "SoreArmsIcon.png",
+  "Cramps": "CrampsIcon.png",
+  "Out of Breath": "OutOfBreathIcon.png",
+  "Coughing": "CoughingIcon.png",
+  "Thirsty": "ThirstyIcon.png",
+  "Hungry": "HungryIcon.png",
+  "Dehydrated": "DehydratedIcon.png",
+  "Starving": "StarvingIcon.png",
+  "Vision Black-Out": "VisionBlackOutIcon.png",
+  "Blind Spot": "BlindSpotIcon.png",
+  "Coma": "VisionBlackOutIcon.png",
 };
+
+function getIconUrl(conditionName) {
+  const fileName = medicalIconFiles[conditionName];
+  if (!fileName) {
+    return "";
+  }
+
+  return `https://gray-zone-warfare.fandom.com/wiki/Special:FilePath/${encodeURIComponent(fileName)}`;
+}
 
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
@@ -455,11 +464,11 @@ function renderMedicalGuide() {
     .map((step) => `<li>${step}</li>`)
     .join("");
 
-  const icon = medicalIcons[key] || "";
+  const iconUrl = getIconUrl(key);
 
   medicalGuideEl.innerHTML = `
     <div class="condition-header">
-      ${icon ? `<span class="condition-icon" aria-hidden="true">${icon}</span>` : ""}
+      ${iconUrl ? `<img class="condition-icon" src="${iconUrl}" alt="${key} icon" loading="lazy" />` : ""}
       <h3>${key}</h3>
     </div>
     <p><strong>Likely Cause:</strong> ${situation.likelyCause}</p>

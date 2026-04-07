@@ -1,7 +1,7 @@
 {
   "name": "gray-zone-intel-board",
   "version": "1.0.11",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Gray Zone Intel Board desktop app",
   "main": "electron/main.js",
   "author": "",

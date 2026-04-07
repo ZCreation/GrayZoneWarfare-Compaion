@@ -1,6 +1,6 @@
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
-const { app, BrowserWindow, Menu, dialog, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain, shell } = require("electron");
 const { autoUpdater } = require("electron-updater");
 
 const isMac = process.platform === "darwin";
@@ -20,6 +20,59 @@ const twitchStreamsQuery = [
 let mainWindow;
 let manualUpdateCheckPending = false;
 let handlersRegistered = false;
+let dialogIdCounter = 0;
+const pendingDialogs = new Map();
+const dialogWindows = new Map();
+
+function showCustomDialog({ title, message, detail = "", buttons = ["OK"], type = "info", cancelId }) {
+  return new Promise((resolve) => {
+    const id = String(++dialogIdCounter);
+    const resolvedCancelId = cancelId !== undefined ? cancelId : buttons.length - 1;
+    pendingDialogs.set(id, resolve);
+
+    const params = new URLSearchParams({
+      id,
+      type,
+      title,
+      message,
+      detail: detail || "",
+      buttons: JSON.stringify(buttons),
+      cancelId: String(resolvedCancelId),
+    });
+
+    const dialogWin = new BrowserWindow({
+      width: 440,
+      height: detail ? 220 : 188,
+      resizable: false,
+      minimizable: false,
+      maximizable: false,
+      alwaysOnTop: true,
+      frame: false,
+      skipTaskbar: true,
+      parent: getDialogWindow() || undefined,
+      modal: !!getDialogWindow(),
+      backgroundColor: "#0c1a1e",
+      webPreferences: {
+        contextIsolation: true,
+        nodeIntegration: false,
+        preload: path.join(__dirname, "dialog-preload.js"),
+      },
+    });
+
+    dialogWindows.set(id, dialogWin);
+
+    const dialogHtmlUrl = pathToFileURL(path.join(__dirname, "dialog.html")).toString();
+    dialogWin.loadURL(`${dialogHtmlUrl}?${params.toString()}`);
+
+    dialogWin.on("closed", () => {
+      dialogWindows.delete(id);
+      if (pendingDialogs.has(id)) {
+        pendingDialogs.delete(id);
+        resolve(resolvedCancelId);
+      }
+    });
+  });
+}
 
 function isAppFileUrl(url) {
   return typeof url === "string" && url.startsWith(appRootUrl);
@@ -133,6 +186,19 @@ function registerIpcHandlers() {
 
   handlersRegistered = true;
 
+  ipcMain.on("dialog:result", (_event, { id, buttonIndex }) => {
+    const resolve = pendingDialogs.get(id);
+    if (resolve) {
+      pendingDialogs.delete(id);
+      const win = dialogWindows.get(id);
+      if (win && !win.isDestroyed()) {
+        dialogWindows.delete(id);
+        win.close();
+      }
+      resolve(buttonIndex);
+    }
+  });
+
   ipcMain.handle("app:check-for-updates", async () => {
     if (!shouldEnableAutoUpdates()) {
       return {
@@ -188,24 +254,24 @@ function configureAutoUpdates() {
     if (manualUpdateCheckPending) {
       manualUpdateCheckPending = false;
 
-      await dialog.showMessageBox(getDialogWindow(), {
+      await showCustomDialog({
         type: "error",
-        buttons: ["OK"],
         title: "Update Check Failed",
         message: "Could not check for updates.",
         detail: "Please try again in a bit.",
+        buttons: ["OK"],
       });
     }
   });
 
   autoUpdater.on("update-available", async () => {
     if (manualUpdateCheckPending) {
-      await dialog.showMessageBox(getDialogWindow(), {
+      await showCustomDialog({
         type: "info",
-        buttons: ["OK"],
         title: "Update Found",
         message: "A new update is available.",
         detail: "It is downloading in the background now.",
+        buttons: ["OK"],
       });
     }
   });
@@ -214,11 +280,11 @@ function configureAutoUpdates() {
     if (manualUpdateCheckPending) {
       manualUpdateCheckPending = false;
 
-      await dialog.showMessageBox(getDialogWindow(), {
+      await showCustomDialog({
         type: "info",
-        buttons: ["OK"],
         title: "Up To Date",
         message: "You already have the latest version.",
+        buttons: ["OK"],
       });
     }
   });
@@ -226,17 +292,16 @@ function configureAutoUpdates() {
   autoUpdater.on("update-downloaded", async () => {
     manualUpdateCheckPending = false;
 
-    const { response } = await dialog.showMessageBox(getDialogWindow(), {
+    const buttonIndex = await showCustomDialog({
       type: "info",
-      buttons: ["Restart Now", "Later"],
-      defaultId: 0,
-      cancelId: 1,
       title: "Update Ready",
       message: "A new Gray Zone Intel Board update has been downloaded.",
       detail: "Restart the app now to install the update.",
+      buttons: ["Restart Now", "Later"],
+      cancelId: 1,
     });
 
-    if (response === 0) {
+    if (buttonIndex === 0) {
       autoUpdater.quitAndInstall();
     }
   });

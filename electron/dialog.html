@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'unsafe-inline'" />
+    <title>Dialog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      }
+
+      .dialog {
+        width: 100vw;
+        height: 100vh;
+        background: #0c1a1e;
+        border: 1px solid rgba(121, 214, 183, 0.28);
+        border-top: 2px solid #79d6b7;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      body.error .dialog {
+        border-top-color: #e07070;
+      }
+
+      body.warning .dialog {
+        border-top-color: #f6d289;
+      }
+
+      /* ── Title bar ─────────────────────────────────────────── */
+      .titlebar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 12px;
+        background: rgba(8, 19, 22, 0.9);
+        border-bottom: 1px solid rgba(121, 214, 183, 0.12);
+        -webkit-app-region: drag;
+        user-select: none;
+        flex-shrink: 0;
+      }
+
+      .type-badge {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+        -webkit-app-region: no-drag;
+      }
+
+      .type-badge.info {
+        background: rgba(121, 214, 183, 0.18);
+        color: #79d6b7;
+      }
+
+      .type-badge.error {
+        background: rgba(220, 80, 80, 0.18);
+        color: #e07070;
+      }
+
+      .type-badge.warning {
+        background: rgba(246, 210, 137, 0.18);
+        color: #f6d289;
+      }
+
+      .title-text {
+        flex: 1;
+        font-family: "Bebas Neue", "Space Grotesk", sans-serif;
+        font-size: 15px;
+        letter-spacing: 1.2px;
+        color: #79d6b7;
+      }
+
+      body.error .title-text {
+        color: #e07070;
+      }
+
+      body.warning .title-text {
+        color: #f6d289;
+      }
+
+      .close-btn {
+        -webkit-app-region: no-drag;
+        background: none;
+        border: none;
+        color: #9fc7bb;
+        cursor: pointer;
+        font-size: 13px;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: color 0.15s, background 0.15s;
+        flex-shrink: 0;
+      }
+
+      .close-btn:hover {
+        color: #e4f6f0;
+        background: rgba(121, 214, 183, 0.1);
+      }
+
+      /* ── Body ──────────────────────────────────────────────── */
+      .body {
+        flex: 1;
+        padding: 15px 18px 8px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        overflow: hidden;
+      }
+
+      .message {
+        font-size: 13.5px;
+        font-weight: 500;
+        color: #e4f6f0;
+        line-height: 1.45;
+      }
+
+      .detail {
+        font-size: 12px;
+        color: #9fc7bb;
+        line-height: 1.45;
+      }
+
+      .detail:empty {
+        display: none;
+      }
+
+      /* ── Footer / Buttons ──────────────────────────────────── */
+      .footer {
+        padding: 8px 14px 14px 14px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .btn {
+        padding: 6px 18px;
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 1px solid rgba(121, 214, 183, 0.38);
+        background: transparent;
+        color: #79d6b7;
+        transition: background 0.15s, color 0.15s, border-color 0.15s;
+        -webkit-app-region: no-drag;
+      }
+
+      .btn:hover {
+        background: rgba(121, 214, 183, 0.1);
+        border-color: #79d6b7;
+      }
+
+      .btn.primary {
+        background: #79d6b7;
+        color: #081316;
+        border-color: #79d6b7;
+      }
+
+      .btn.primary:hover {
+        background: #6bc9ab;
+        border-color: #6bc9ab;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dialog">
+      <div class="titlebar">
+        <span class="type-badge" id="typeBadge"></span>
+        <span class="title-text" id="titleText"></span>
+        <button class="close-btn" id="closeBtn" title="Close">✕</button>
+      </div>
+      <div class="body">
+        <p class="message" id="message"></p>
+        <p class="detail" id="detail"></p>
+      </div>
+      <div class="footer" id="footer"></div>
+    </div>
+
+    <script>
+      const data = window.dialogBridge.getParams();
+
+      // Apply type class for color theming
+      document.body.classList.add(data.type);
+
+      // Badge
+      const badge = document.getElementById("typeBadge");
+      badge.textContent = data.type === "info" ? "i" : "!";
+      badge.classList.add(data.type);
+
+      // Title / message / detail
+      document.getElementById("titleText").textContent = data.title;
+      document.getElementById("message").textContent = data.message;
+      document.getElementById("detail").textContent = data.detail;
+
+      // Buttons — first button is primary
+      const footer = document.getElementById("footer");
+      data.buttons.forEach((label, index) => {
+        const btn = document.createElement("button");
+        btn.className = "btn" + (index === 0 ? " primary" : "");
+        btn.textContent = label;
+        btn.addEventListener("click", () => {
+          window.dialogBridge.submit(data.id, index);
+        });
+        footer.appendChild(btn);
+      });
+
+      // Close button resolves with cancelId
+      document.getElementById("closeBtn").addEventListener("click", () => {
+        window.dialogBridge.submit(data.id, data.cancelId);
+      });
+    </script>
+  </body>
+</html>

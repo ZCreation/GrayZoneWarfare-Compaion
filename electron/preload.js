@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer, webFrame } = require("electron");
 
 let pendingFit = false;
-const fitPages = new Set(["index.html", "vulture.html", "blueprints.html", "medical.html"]);
+const fitPages = new Set(["index.html", "vulture.html", "blueprints.html"]);
 
 function getCurrentPage() {
   return window.location.pathname.split("/").pop()?.toLowerCase() || "index.html";

@@ -385,6 +385,35 @@ const medicalCategories = [
   },
 ];
 
+const medicalIcons = {
+  "Light Bleeding":           "🩸",
+  "Medium Bleeding":          "🩸",
+  "Severe Bleeding":          "🩸",
+  "Dizzy":                    "💫",
+  "Confused":                 "🌀",
+  "Disorientated":            "😵‍💫",
+  "Dazed":                    "🧠",
+  "Nauseous":                 "🤢",
+  "Hurt / In Pain / Suffering": "😣",
+  "Tremors":                  "〰️",
+  "Upset Stomach":            "🤮",
+  "Limping":                  "🦵",
+  "Encumbered":               "⚖️",
+  "Fatigued":                 "😮‍💨",
+  "Exhausted":                "😴",
+  "Sore Arms":                "💪",
+  "Cramps":                   "✊",
+  "Out of Breath":            "💨",
+  "Coughing":                 "😷",
+  "Thirsty":                  "💧",
+  "Hungry":                   "🍽️",
+  "Dehydrated":               "🌵",
+  "Starving":                 "⚡",
+  "Vision Black-Out":         "⬛",
+  "Blind Spot":               "🔦",
+  "Coma":                     "💀",
+};
+
 const conditionSelectEl = document.getElementById("conditionSelect");
 const medicalGuideEl = document.getElementById("medicalGuide");
 
@@ -426,8 +455,13 @@ function renderMedicalGuide() {
     .map((step) => `<li>${step}</li>`)
     .join("");
 
+  const icon = medicalIcons[key] || "";
+
   medicalGuideEl.innerHTML = `
-    <h3>${key}</h3>
+    <div class="condition-header">
+      ${icon ? `<span class="condition-icon" aria-hidden="true">${icon}</span>` : ""}
+      <h3>${key}</h3>
+    </div>
     <p><strong>Likely Cause:</strong> ${situation.likelyCause}</p>
     <p><strong>How to Identify It:</strong></p>
     <ul>${identifyHtml}</ul>

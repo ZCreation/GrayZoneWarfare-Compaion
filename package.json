@@ -9,8 +9,8 @@
     "start": "electron .",
     "dist": "electron-builder --win dir",
     "dist:portable": "electron-builder --win portable",
-    "dist:installer": "electron-builder --win nsis && npm run clean:release",
-    "publish:github": "electron-builder --win nsis --publish always && npm run clean:release",
+    "dist:installer": "node scripts/build-installer.js",
+    "publish:github": "electron-builder --win nsis --publish always && node scripts/clean-release.js",
     "clean:release": "node scripts/clean-release.js"
   },
   "build": {

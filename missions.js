@@ -18,6 +18,10 @@ function normalize(value) {
   return value.toLowerCase().trim();
 }
 
+function getMissionDetailUrl(missionName) {
+  return `https://gray-zone-warfare.fandom.com/wiki/${encodeURIComponent(missionName).replace(/%20/g, "_")}`;
+}
+
 function getFilteredData(searchTerm) {
   const query = normalize(searchTerm || "");
 
@@ -73,7 +77,10 @@ function renderGiverSection(giver) {
     .map(
       (mission) => `
         <li class="mission-card">
-          <strong>${escapeHtml(mission)}</strong>
+          <a class="mission-card__link" href="${getMissionDetailUrl(mission)}" target="_blank" rel="noopener noreferrer">
+            <strong>${escapeHtml(mission)}</strong>
+            <span>Open mission details</span>
+          </a>
         </li>
       `
     )

@@ -8,6 +8,7 @@ const compactMissionLayout = window.matchMedia("(max-width: 760px)");
 let activeGiverId = missionGivers[0]?.id || "handshake";
 let selectedMissionName = "";
 let detailRequestToken = 0;
+let missionListScrollY = 0;
 
 const missionDetailCache = new Map();
 
@@ -16,7 +17,21 @@ function isCompactMissionLayout() {
 }
 
 function setMissionDetailMode(isOpen) {
-  document.body.classList.toggle("missions-detail-open", isOpen && isCompactMissionLayout());
+  if (!isCompactMissionLayout()) {
+    document.body.classList.remove("missions-detail-open");
+    return;
+  }
+
+  if (isOpen) {
+    missionListScrollY = window.scrollY;
+    document.body.classList.add("missions-detail-open");
+    return;
+  }
+
+  document.body.classList.remove("missions-detail-open");
+  window.requestAnimationFrame(() => {
+    window.scrollTo({ top: missionListScrollY, left: 0, behavior: "auto" });
+  });
 }
 
 function getSelectedMissionButton() {
@@ -34,12 +49,9 @@ function goBackToMissionList() {
 
   const selectedButton = getSelectedMissionButton();
   if (selectedButton) {
-    selectedButton.scrollIntoView({ behavior: "smooth", block: "center" });
     selectedButton.focus({ preventScroll: true });
     return;
   }
-
-  missionResultsEl?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function setDetailPanelContent(innerMarkup, showBackButton = false) {
@@ -397,6 +409,10 @@ function getVisibleMissionNames(groups) {
   return groups.flatMap((giver) => giver.missions);
 }
 
+function shouldAutoLoadMissionDetail() {
+  return !isCompactMissionLayout() || document.body.classList.contains("missions-detail-open");
+}
+
 function getFilteredData(searchTerm) {
   const query = normalize(searchTerm || "");
 
@@ -515,7 +531,9 @@ function renderMissions() {
   const visibleMissionNames = getVisibleMissionNames(groups);
   if (!visibleMissionNames.includes(selectedMissionName)) {
     selectedMissionName = visibleMissionNames[0] || "";
-    missionToAutoLoad = selectedMissionName;
+    if (selectedMissionName && shouldAutoLoadMissionDetail()) {
+      missionToAutoLoad = selectedMissionName;
+    }
   }
 
   missionResultsEl.innerHTML = groups.map(renderGiverSection).join("");

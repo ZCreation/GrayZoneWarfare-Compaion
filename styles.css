@@ -465,6 +465,11 @@ main {
   cursor: pointer;
 }
 
+.mission-detail-back:focus-visible {
+  outline: 2px solid rgba(246, 210, 137, 0.75);
+  outline-offset: 2px;
+}
+
 .mission-detail-panel__empty,
 .mission-detail-panel__state {
   display: grid;
@@ -1129,6 +1134,9 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+    position: sticky;
+    top: 0;
+    z-index: 2;
   }
 
   .mission-detail-back::before {
@@ -1139,6 +1147,44 @@ footer {
 
   body.missions-detail-open .mission-results {
     display: none;
+  }
+
+  body.missions-detail-open .mission-browser-controls,
+  body.missions-detail-open .hero,
+  body.missions-detail-open footer {
+    display: none;
+  }
+
+  body.missions-detail-open {
+    overflow: hidden;
+  }
+
+  body.missions-detail-open main {
+    width: 100%;
+    padding-bottom: 0;
+  }
+
+  body.missions-detail-open .mission-browser-layout {
+    display: block;
+  }
+
+  body.missions-detail-open .mission-detail-panel {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    width: 100vw;
+    min-height: 100dvh;
+    max-width: none;
+    margin: 0;
+    border-radius: 0;
+    border: 0;
+    padding: 1rem 1rem 2rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background:
+      linear-gradient(rgba(6, 13, 16, 0.94), rgba(6, 13, 16, 0.98)),
+      linear-gradient(145deg, var(--bg-deep), var(--bg-mid));
   }
 
   body:not(.missions-detail-open) .mission-detail-panel {

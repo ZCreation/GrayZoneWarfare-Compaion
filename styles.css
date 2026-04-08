@@ -452,6 +452,19 @@ main {
   top: 1rem;
 }
 
+.mission-detail-back {
+  display: none;
+  margin-bottom: 0.85rem;
+  border: 1px solid rgba(121, 214, 183, 0.38);
+  background: rgba(7, 17, 20, 0.9);
+  color: var(--text-main);
+  border-radius: 999px;
+  padding: 0.5rem 0.8rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .mission-detail-panel__empty,
 .mission-detail-panel__state {
   display: grid;
@@ -1110,6 +1123,26 @@ footer {
 
   .mission-detail-panel {
     position: static;
+  }
+
+  .mission-detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .mission-detail-back::before {
+    content: "\2039";
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  body.missions-detail-open .mission-results {
+    display: none;
+  }
+
+  body:not(.missions-detail-open) .mission-detail-panel {
+    display: none;
   }
 
   .hero {

@@ -3,12 +3,57 @@ const missionSearchEl = document.getElementById("missionSearch");
 const missionResultsEl = document.getElementById("missionResults");
 const missionCountEl = document.getElementById("missionCount");
 const missionDetailPanelEl = document.getElementById("missionDetailPanel");
+const compactMissionLayout = window.matchMedia("(max-width: 760px)");
 
 let activeGiverId = missionGivers[0]?.id || "handshake";
 let selectedMissionName = "";
 let detailRequestToken = 0;
 
 const missionDetailCache = new Map();
+
+function isCompactMissionLayout() {
+  return compactMissionLayout.matches;
+}
+
+function setMissionDetailMode(isOpen) {
+  document.body.classList.toggle("missions-detail-open", isOpen && isCompactMissionLayout());
+}
+
+function getSelectedMissionButton() {
+  if (!missionResultsEl || !selectedMissionName) {
+    return null;
+  }
+
+  return Array.from(missionResultsEl.querySelectorAll(".mission-card__link")).find(
+    (button) => button.dataset.missionName === selectedMissionName
+  );
+}
+
+function goBackToMissionList() {
+  setMissionDetailMode(false);
+
+  const selectedButton = getSelectedMissionButton();
+  if (selectedButton) {
+    selectedButton.scrollIntoView({ behavior: "smooth", block: "center" });
+    selectedButton.focus({ preventScroll: true });
+    return;
+  }
+
+  missionResultsEl?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function setDetailPanelContent(innerMarkup, showBackButton = false) {
+  if (!missionDetailPanelEl) {
+    return;
+  }
+
+  missionDetailPanelEl.innerHTML = `
+    ${showBackButton ? '<button class="mission-detail-back" type="button">Back to Missions</button>' : ""}
+    ${innerMarkup}
+  `;
+
+  missionDetailPanelEl.querySelector(".mission-detail-back")?.addEventListener("click", goBackToMissionList);
+}
 
 function escapeHtml(value) {
   return String(value)
@@ -177,12 +222,12 @@ function renderDetailLoading(missionName) {
     return;
   }
 
-  missionDetailPanelEl.innerHTML = `
+  setDetailPanelContent(`
     <div class="mission-detail-panel__state">
       <h3>${escapeHtml(missionName)}</h3>
       <p>Loading mission details...</p>
     </div>
-  `;
+  `, true);
 }
 
 function renderDetailError(missionName) {
@@ -190,12 +235,12 @@ function renderDetailError(missionName) {
     return;
   }
 
-  missionDetailPanelEl.innerHTML = `
+  setDetailPanelContent(`
     <div class="mission-detail-panel__state">
       <h3>${escapeHtml(missionName)}</h3>
       <p>Mission details could not be loaded right now.</p>
     </div>
-  `;
+  `, true);
 }
 
 function renderLabeledList(items, emptyText) {
@@ -261,7 +306,7 @@ function renderMissionDetail(detail) {
     return;
   }
 
-  missionDetailPanelEl.innerHTML = `
+  setDetailPanelContent(`
     <article class="mission-detail-view">
       ${detail.bannerImage ? `<img class="mission-detail-view__banner" src="${detail.bannerImage}" alt="${escapeHtml(detail.title)} banner" loading="lazy" />` : ""}
       <div class="mission-detail-view__header">
@@ -299,7 +344,12 @@ function renderMissionDetail(detail) {
         ${renderGuide(detail)}
       </section>
     </article>
-  `;
+  `, true);
+
+  if (isCompactMissionLayout()) {
+    setMissionDetailMode(true);
+    missionDetailPanelEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
 
 async function loadMissionDetail(missionName) {
@@ -448,13 +498,15 @@ function renderMissions() {
     `;
 
     if (missionDetailPanelEl) {
-      missionDetailPanelEl.innerHTML = `
+      setDetailPanelContent(`
         <div class="mission-detail-panel__empty">
           <h3>No Mission Selected</h3>
           <p>Adjust the search or choose a different giver to load mission details.</p>
         </div>
-      `;
+      `);
     }
+
+    setMissionDetailMode(false);
 
     return;
   }
@@ -494,6 +546,12 @@ function initMissions() {
 
   missionSearchEl.addEventListener("input", () => {
     renderMissions();
+  });
+
+  window.addEventListener("resize", () => {
+    if (!isCompactMissionLayout()) {
+      setMissionDetailMode(false);
+    }
   });
 }
 

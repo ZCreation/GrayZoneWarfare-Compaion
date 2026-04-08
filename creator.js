@@ -2,28 +2,29 @@ const weaponSelectEl = document.getElementById("weaponSelect");
 const creatorViewEl = document.getElementById("creatorView");
 
 const statMeta = [
-  { key: "accuracyMoa", label: "Accuracy", suffix: " MOA", invertPolarity: true },
-  { key: "recoilControl", label: "Recoil Control", suffix: "%" },
-  { key: "armStaminaDrain", label: "Arm Stamina Drain", suffix: "%", invertPolarity: true },
-  { key: "weaponHandling", label: "Weapon Handling", suffix: "%" },
-  { key: "reloadTime", label: "Reload Time", suffix: "%", invertPolarity: true },
+  { key: "accuracyMoa",             label: "Accuracy",                  suffix: " MOA", isMoa: true },
+  { key: "fireRatePercent",         label: "Fire Rate",                 suffix: "%" },
+  { key: "recoilControl",           label: "Recoil Control",            suffix: "%" },
+  { key: "muzzleDeviceEfficiency",  label: "Muzzle Device Efficiency",  suffix: "%" },
+  { key: "muzzleVelocity",          label: "Muzzle Velocity",           suffix: "%" },
+  { key: "ergonomics",              label: "Ergonomics",                suffix: "%" },
+  { key: "reloadSpeed",             label: "Reload Speed",              suffix: "%" },
 ];
 
 function formatNumber(value, decimals = 2) {
   return Number(value).toFixed(decimals);
 }
 
-function formatDelta(value, invertPolarity = false) {
-  if (!value) {
-    return "0%";
+function formatDelta(value) {
+  if (value === 0 || value === undefined || value === null) {
+    return `<span class="is-neutral">0%</span>`;
   }
 
   const isPositive = value > 0;
-  const positiveIsGood = invertPolarity ? !isPositive : isPositive;
-  const className = positiveIsGood ? "is-positive" : "is-negative";
+  const className = isPositive ? "is-positive" : "is-negative";
   const sign = isPositive ? "+" : "";
 
-  return `<span class="${className}">${sign}${value}%</span>`;
+  return `<span class="${className}">${sign}${Number(value).toFixed(1)}%</span>`;
 }
 
 function getSelectedOption(slot) {
@@ -35,13 +36,7 @@ function getWeaponById(id) {
 }
 
 function calculateTotals(weapon) {
-  const totals = {
-    ...weapon.baseStats,
-    recoilControl: weapon.baseStats.recoilControl || 0,
-    armStaminaDrain: weapon.baseStats.armStaminaDrain || 0,
-    weaponHandling: weapon.baseStats.weaponHandling || 0,
-    reloadTime: weapon.baseStats.reloadTime || 0,
-  };
+  const totals = { ...weapon.baseStats };
 
   weapon.slots.forEach((slot) => {
     const selected = getSelectedOption(slot);
@@ -63,8 +58,8 @@ function calculateTotals(weapon) {
 
 function renderStatRows(weapon, totals) {
   return statMeta
-    .map(({ key, label, suffix, invertPolarity }) => {
-      const value = totals[key] || 0;
+    .map(({ key, label, suffix }) => {
+      const value = totals[key] ?? 0;
 
       if (key === "accuracyMoa") {
         return `
@@ -78,7 +73,7 @@ function renderStatRows(weapon, totals) {
       return `
         <li>
           <span>${label}</span>
-          <strong>${formatDelta(value, invertPolarity)}</strong>
+          <strong>${formatDelta(value)}</strong>
         </li>
       `;
     })

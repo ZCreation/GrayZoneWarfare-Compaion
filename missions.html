@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blueprint Routes | Gray Zone Intel Board</title>
+    <title>Missions | Gray Zone Intel Board</title>
+    <meta
+      name="description"
+      content="Gray Zone Warfare mission browser with quest-giver tabs and mission search."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,17 +21,17 @@
 
     <header class="hero page-header">
       <div class="hero__text">
-        <h2>Weapon Blueprint Locations</h2>
-        <p>Known spawns, danger level, and extraction notes.</p>
+        <h2>Missions</h2>
+        <p>Browse tasks by quest giver or search directly for the mission name you need.</p>
       </div>
       <nav class="site-nav site-nav--hero" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="loot.html">Loot</a>
         <a href="vulture.html">Vulture</a>
-        <a class="current" href="blueprints.html">Blueprints</a>
+        <a href="blueprints.html">Blueprints</a>
         <a href="medical.html">Medical</a>
         <a href="provisions.html">Food and Drinks</a>
-        <a href="missions.html">Missions</a>
+        <a class="current" href="missions.html">Missions</a>
         <span class="nav-row-break" aria-hidden="true"></span>
         <a href="twitch.html">Streamers</a>
         <a href="https://mapgenie.io/gray-zone-warfare/maps/lamang-island" target="_blank" rel="noopener noreferrer">Map</a>
@@ -36,13 +40,26 @@
     </header>
 
     <main>
-      <section class="panel" id="blueprints">
-        <div class="blueprint-carousel">
-          <button id="blueprintPrev" class="blueprint-nav" type="button" aria-label="Previous blueprints">&#10094;</button>
-          <div id="blueprintList" class="list-grid blueprint-track"></div>
-          <button id="blueprintNext" class="blueprint-nav" type="button" aria-label="Next blueprints">&#10095;</button>
+      <section class="panel">
+        <div class="panel__heading">
+          <h2>Task Browser</h2>
+          <p>Source: Gray Zone Warfare Wiki Tasks page. Use tabs for giver-specific browsing or search across all.</p>
         </div>
+
+        <p class="update-note">
+          These task entries are based on pre-0.4 wiki information and are being reviewed and updated progressively.
+        </p>
+
+        <div class="toolbar toolbar--missions">
+          <label for="missionSearch">Search Missions or Givers</label>
+          <input id="missionSearch" type="search" placeholder="Try: First Recon, Gunny, Mysterious Justice..." />
+          <span class="mission-count" id="missionCount"></span>
+        </div>
+
+        <div class="mission-tabs" id="missionTabs" aria-label="Mission givers"></div>
       </section>
+
+      <section id="missionResults" class="mission-results" aria-live="polite"></section>
     </main>
 
     <footer>
@@ -55,6 +72,7 @@
       </p>
     </footer>
 
-    <script src="blueprints.js"></script>
+    <script src="missionsData.js"></script>
+    <script src="missions.js"></script>
   </body>
 </html>

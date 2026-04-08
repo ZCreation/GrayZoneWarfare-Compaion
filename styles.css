@@ -216,6 +216,25 @@ h2 {
   text-decoration: none;
 }
 
+.release-status-note {
+  border: 1px solid rgba(246, 210, 137, 0.45);
+  background: linear-gradient(135deg, rgba(246, 210, 137, 0.12), rgba(9, 20, 24, 0.88));
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.release-status-note h3 {
+  margin: 0;
+  color: #ffe2aa;
+  font-size: 1.02rem;
+}
+
+.release-status-note p {
+  margin: 0.45rem 0 0;
+  color: #f6e5c4;
+}
+
 .hero__chips a {
   color: #e9fff7;
   text-decoration: none;
@@ -364,6 +383,107 @@ main {
 .toolbar.compact {
   grid-template-columns: auto minmax(180px, 280px);
   justify-content: start;
+}
+
+.toolbar.toolbar--missions {
+  grid-template-columns: auto minmax(280px, 1fr) auto;
+}
+
+.mission-count {
+  justify-self: end;
+  color: var(--warn);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.mission-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+
+.mission-tab {
+  border: 1px solid rgba(121, 214, 183, 0.35);
+  background: rgba(7, 17, 20, 0.85);
+  border-radius: 12px;
+  color: var(--text-main);
+  padding: 0.55rem;
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mission-tab img {
+  width: 76px;
+  height: 76px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(121, 214, 183, 0.28);
+  background: rgba(9, 18, 22, 0.82);
+}
+
+.mission-tab span {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.mission-tab.is-current {
+  border-color: rgba(246, 210, 137, 0.85);
+  background: linear-gradient(135deg, rgba(246, 210, 137, 0.2), rgba(9, 18, 22, 0.9));
+}
+
+.mission-results {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.mission-group__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.mission-group__head img {
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(121, 214, 183, 0.25);
+}
+
+.mission-group__head h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.mission-group__head p {
+  margin: 0.15rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.mission-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.55rem;
+}
+
+.mission-card {
+  border: 1px solid rgba(121, 214, 183, 0.18);
+  border-radius: 10px;
+  background: rgba(8, 18, 22, 0.78);
+  padding: 0.6rem 0.7rem;
+}
+
+.mission-card strong {
+  font-weight: 600;
 }
 
 label {
@@ -805,6 +925,14 @@ footer {
   .toolbar,
   .toolbar.compact {
     grid-template-columns: 1fr;
+  }
+
+  .toolbar.toolbar--missions {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-count {
+    justify-self: start;
   }
 
   .hero {
